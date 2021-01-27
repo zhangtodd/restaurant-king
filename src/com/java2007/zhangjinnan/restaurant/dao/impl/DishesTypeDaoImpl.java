@@ -22,7 +22,7 @@ public class DishesTypeDaoImpl implements DishesTypeDao {
     public List<DishesType> findByTypeName(String typeName) throws SQLException {
         QueryRunner runner = new QueryRunner(JdbcUtil.getDataSource());
         String sql = "SELECT id, name FROM dishes_type WHERE name LIKE ?";
-        typeName = '%' + typeName + '%';
+        typeName = "%" + typeName + "%";
         return runner.query(sql, new BeanListHandler<>(DishesType.class), typeName);
     }
 

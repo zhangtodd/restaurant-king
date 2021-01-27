@@ -19,6 +19,8 @@ public class DishesTypeController extends BaseServlet {
 
     public String search(HttpServletRequest request, HttpServletResponse response) throws Exception {
         //TODO HttpServletRequest和HttpServletResponse详细定义
+        //TODO GET/POST? postman 数据传输方式? 获取字符方式
+
         String keyword = request.getParameter("keyword");
         List<DishesType> types = dishesTypeService.findByTypeName(keyword);
         request.setAttribute("types", types);

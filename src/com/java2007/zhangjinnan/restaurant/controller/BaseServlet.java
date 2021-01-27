@@ -25,8 +25,9 @@ public class BaseServlet extends HttpServlet {
         try {
             String methodStr = request.getParameter(ServletConstant.METHOD);
 
-            Method method = this.getClass()
-                    .getMethod(methodStr, HttpServletRequest.class, HttpServletResponse.class);
+            Class clazz = this.getClass();
+            Method method = clazz.getMethod(methodStr, HttpServletRequest.class, HttpServletResponse.class);
+
             Object object = method.invoke(this, request, response);
 
             // object != null repeat function with instanceof
