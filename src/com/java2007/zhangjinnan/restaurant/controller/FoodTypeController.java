@@ -35,17 +35,18 @@ public class FoodTypeController extends BaseServlet {
         return foodType;
     }
 
-    public int save(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return foodTypeService.save
-                (new FoodType(request.getParameter("name").trim()));
+    public List<FoodType> save(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        foodTypeService.save(new FoodType(request.getParameter("name").trim()));
+        return foodTypeService.findByTypeName("");
     }
 
-    public int update(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public List<FoodType> update(HttpServletRequest request, HttpServletResponse response) throws Exception {
         Map<String, String[]> parameterMap = request.getParameterMap();
         FoodType foodType = new FoodType();
 
         BeanUtils.populate(foodType, parameterMap);
-        return foodTypeService.update(foodType);
+        foodTypeService.update(foodType);
+        return foodTypeService.findByTypeName("");
     }
 
 }
