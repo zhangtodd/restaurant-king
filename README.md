@@ -11,8 +11,8 @@
 |  表名         | 含义 |
 |  ----         | ---- |
 | dining_table  | 餐桌表，可以预定/退订 |
-| dishes_type   | 菜系表 |
-| dishes        | 菜品表 |
+| food_type     | 菜系表 |
+| food          | 菜品表 |
 | member        | 用户表，role字段区分管理员和用户 |
 | order         | 订单表 |
 | oeder_detail  | 订单单项详情表 |

@@ -2,41 +2,41 @@ package com.java2007.zhangjinnan.restaurant.service.impl;
 
 import com.alibaba.druid.util.StringUtils;
 import com.java2007.zhangjinnan.restaurant.constant.DaoConstant;
-import com.java2007.zhangjinnan.restaurant.dao.DishesTypeDao;
+import com.java2007.zhangjinnan.restaurant.dao.FoodTypeDao;
 import com.java2007.zhangjinnan.restaurant.factory.BeanFactory;
-import com.java2007.zhangjinnan.restaurant.pojo.DishesType;
-import com.java2007.zhangjinnan.restaurant.service.DishesTypeService;
+import com.java2007.zhangjinnan.restaurant.pojo.FoodType;
+import com.java2007.zhangjinnan.restaurant.service.FoodTypeService;
 import com.java2007.zhangjinnan.restaurant.utils.JdbcUtil;
 
 import java.sql.SQLException;
 import java.util.List;
 
-public class DishesTypeServiceImpl implements DishesTypeService {
+public class FoodTypeServiceImpl implements FoodTypeService {
 
-    private DishesTypeDao dishesTypeDao =
-            (DishesTypeDao) BeanFactory.getBean(DaoConstant.DISHES_TYPE);
+    private FoodTypeDao foodTypeDao =
+            (FoodTypeDao) BeanFactory.getBean(DaoConstant.FOOD_TYPE);
 
     @Override
-    public List<DishesType> findAll() throws SQLException {
-        return dishesTypeDao.findAll();
+    public List<FoodType> findAll() throws SQLException {
+        return foodTypeDao.findAll();
     }
 
     @Override
-    public List<DishesType> findByTypeName(String typeName) throws SQLException {
-        return dishesTypeDao.findByTypeName
+    public List<FoodType> findByTypeName(String typeName) throws SQLException {
+        return foodTypeDao.findByTypeName
                 (StringUtils.isEmpty(typeName) ? "" : typeName.trim());
     }
 
     @Override
-    public DishesType findByTypeId(Integer typeId) throws SQLException {
-        return dishesTypeDao.findByTypeId(typeId);
+    public FoodType findByTypeId(Integer typeId) throws SQLException {
+        return foodTypeDao.findByTypeId(typeId);
     }
 
     @Override
-    public int save(DishesType dishesType) throws SQLException {
+    public int save(FoodType foodType) throws SQLException {
         try {
             JdbcUtil.begin();
-            dishesTypeDao.save(dishesType);
+            foodTypeDao.save(foodType);
             JdbcUtil.commit();
         } catch (Exception e) {
             e.printStackTrace();
@@ -47,10 +47,10 @@ public class DishesTypeServiceImpl implements DishesTypeService {
     }
 
     @Override
-    public int update(DishesType dishesType) throws SQLException {
+    public int update(FoodType foodType) throws SQLException {
         try {
             JdbcUtil.begin();
-            dishesTypeDao.update(dishesType);
+            foodTypeDao.update(foodType);
             JdbcUtil.commit();
         } catch (Exception e) {
             e.printStackTrace();
@@ -64,7 +64,7 @@ public class DishesTypeServiceImpl implements DishesTypeService {
     public int deleteByTypeId(Integer typeId) throws SQLException {
         try {
             JdbcUtil.begin();
-            dishesTypeDao.deleteByTypeId(typeId);
+            foodTypeDao.deleteByTypeId(typeId);
             JdbcUtil.commit();
         } catch (Exception e) {
             e.printStackTrace();

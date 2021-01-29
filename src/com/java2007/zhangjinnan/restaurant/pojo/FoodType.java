@@ -1,12 +1,12 @@
 package com.java2007.zhangjinnan.restaurant.pojo;
 
-public class DishesType extends BaseClass {
+public class FoodType extends BaseClass {
     private String name;
 
-    public DishesType() {
+    public FoodType() {
     }
 
-    public DishesType(String name) {
+    public FoodType(String name) {
         this.name = name;
     }
 
@@ -20,7 +20,7 @@ public class DishesType extends BaseClass {
 
     @Override
     public String toString() {
-        return "DishesType{" +
+        return "FoodType{" +
                 "name='" + name + '\'' +
                 '}';
     }
