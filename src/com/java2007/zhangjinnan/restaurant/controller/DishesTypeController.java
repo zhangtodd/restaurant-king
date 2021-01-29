@@ -17,44 +17,35 @@ public class DishesTypeController extends BaseServlet {
     private DishesTypeService dishesTypeService =
             (DishesTypeService) BeanFactory.getBean(ServiceConstant.DISHES_TYPE);
 
-    public String search(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        //TODO HttpServletRequest和HttpServletResponse详细定义
-        //TODO GET/POST? postman 数据传输方式? 获取字符方式
-
+    public List<DishesType> search(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String keyword = request.getParameter("keyword");
         List<DishesType> types = dishesTypeService.findByTypeName(keyword);
-        request.setAttribute("types", types);
-        request.setAttribute("keyword", keyword);
-        return "forward:/backend/dishes-type.jsp";
+        return types;
     }
 
-    public String delete(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public int delete(HttpServletRequest request, HttpServletResponse response) throws Exception {
         int id = Integer.parseInt(request.getParameter("id"));
-        dishesTypeService.deleteByTypeId(id);
-        return "redirect:/dishes-type?method=search";
+        return dishesTypeService.deleteByTypeId(id);
     }
 
-    public String findById(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public DishesType findById(HttpServletRequest request, HttpServletResponse response) throws Exception {
         int id = Integer.parseInt(request.getParameter("id"));
         DishesType dishesType = dishesTypeService.findByTypeId(id);
         request.setAttribute("type", dishesType);
-        return "forward:/backend/detail/dishes-type/dishes-type-update.jsp";
+        return dishesType;
     }
 
-    public String save(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        dishesTypeService.save(new DishesType(request.getParameter("dishes-type-name")));
-        return "redirect:/dishes-type?method=search";
+    public int save(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return dishesTypeService.save
+                (new DishesType(request.getParameter("name").trim()));
     }
 
-    public String update(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        //TODO request.getParameterMap()?
+    public int update(HttpServletRequest request, HttpServletResponse response) throws Exception {
         Map<String, String[]> parameterMap = request.getParameterMap();
         DishesType dishesType = new DishesType();
 
         BeanUtils.populate(dishesType, parameterMap);
-        dishesTypeService.update(dishesType);
-        return "redirect:/dishes-type?method=search";
-
+        return dishesTypeService.update(dishesType);
     }
 
 }

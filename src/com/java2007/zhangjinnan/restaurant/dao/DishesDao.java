@@ -11,7 +11,7 @@ public interface DishesDao {
     Dishes findById(Integer id);
 
     //TODO 为什么传Dishes类
-    List<Dishes>findByPage();
+    List<Dishes> findByPage();
 
 
 }
