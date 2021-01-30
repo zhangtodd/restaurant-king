@@ -4,14 +4,16 @@ import java.util.Date;
 
 public class DiningTable extends BaseClass {
     private String name;
-    private Boolean isBooking;
+    private Integer isBooking;
     private Date bookingTime;
     private Integer memberId;
 
     public DiningTable() {
     }
 
-    public DiningTable(String name, Boolean isBooking, Date bookingTime, Integer memberId) {
+    public DiningTable(Integer id, Date createTime, Date updateTime, String name, Integer isBooking, Date bookingTime,
+                       Integer memberId) {
+        super(id, createTime, updateTime);
         this.name = name;
         this.isBooking = isBooking;
         this.bookingTime = bookingTime;
@@ -26,12 +28,12 @@ public class DiningTable extends BaseClass {
         this.name = name;
     }
 
-    public Boolean getBooking() {
+    public Integer getIsBooking() {
         return isBooking;
     }
 
-    public void setBooking(Boolean booking) {
-        isBooking = booking;
+    public void setIsBooking(Integer isBooking) {
+        this.isBooking = isBooking;
     }
 
     public Date getBookingTime() {
@@ -48,5 +50,15 @@ public class DiningTable extends BaseClass {
 
     public void setMemberId(Integer memberId) {
         this.memberId = memberId;
+    }
+
+    @Override
+    public String toString() {
+        return "DiningTable{" +
+                "name='" + name + '\'' +
+                ", isBooking=" + isBooking +
+                ", bookingTime=" + bookingTime +
+                ", memberId=" + memberId +
+                '}';
     }
 }

@@ -7,6 +7,10 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="all,follow">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+
     <!-- Bootstrap CSS-->
     <link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css">
     <!-- Font Awesome CSS-->
@@ -122,8 +126,13 @@
                                         <th>删除</th>
                                     </tr>
                                     </thead>
-                                    <tbody id="dishes-table-tbody">
-
+                                    <tbody id="food-table-tbody">
+                                    <tr>
+                                        <th scope="row">100</th>
+                                        <td>北京菜</td>
+                                        <td><a href="#" class="btn btn-xs btn-outline-info">更新</a></td>
+                                        <td><a href="#" class="btn btn-xs btn-outline-danger">删除</a></td>
+                                    </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -166,25 +175,26 @@
     function deleteTd(id) {
         console.log(id);
     }
+
     //更新方法
-    function updateTd(id){
+    function updateTd(id) {
         console.log(id);
-        const tdDom =  document.getElementById(id);
+        const tdDom = document.getElementById(id);
         //获取菜名
         const name = tdDom.getAttribute("name");
         console.log(name);
 
     }
+
     const reloadTable = function (data) {
-        const tbody = $("#dishes-table-tbody");
-        $("#dishes-table-tbody > tr").remove();
+        const tbody = $("#food-table-tbody");
+        $("#food-table-tbody > tr").remove();
         data.forEach(function (item, index) {
             const j = index + 1;
             tbody.append(
                 `<tr>
                     <th scope="row"> ${j} </th>
                     <td id=${item.id} name=${item.name}> ${item.name} </td>
-                    <label for="change-type-name" class="sr-only">${item.id}</label>
                     <td><a href="#" class="btn btn-xs btn-outline-info" onclick='updateTd(${item.id})'>更新</a></td>
                     <td><a href="#" class="btn btn-xs btn-outline-danger" onclick="deleteTd(${item.id})">删除</a></td>
                  </tr>
@@ -196,6 +206,7 @@
         $.get("/food-type", function (data) {
             reloadTable(data);
         }, "json")
+
     });
     $("#search").click(function () {
         const keyword = $("#search-keyword").val();
@@ -206,7 +217,6 @@
     $("#add-type").click(function () {
         const typename = $("#add-type-name").val();
         $.post("/food-type", {"method": "save", "name": typename}, function (data) {
-            alert(data);
             reloadTable(data);
         }, "json");
 

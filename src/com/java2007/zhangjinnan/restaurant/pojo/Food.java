@@ -5,7 +5,7 @@ import java.util.Date;
 public class Food extends BaseClass {
     private String name;
     private Integer foodTypeId;
-    private Integer foodTypeName;
+    private String foodTypeName;
     //price in cents
     private Integer price;
     private Integer memberPrice;
@@ -15,7 +15,7 @@ public class Food extends BaseClass {
     public Food() {
     }
 
-    public Food(Integer id, Date createTime, Date updateTime, String name, Integer foodTypeId, Integer foodTypeName,
+    public Food(Integer id, Date createTime, Date updateTime, String name, Integer foodTypeId, String foodTypeName,
                 Integer price, Integer memberPrice, String image, String description) {
         super(id, createTime, updateTime);
         this.name = name;
@@ -43,11 +43,11 @@ public class Food extends BaseClass {
         this.foodTypeId = foodTypeId;
     }
 
-    public Integer getFoodTypeName() {
+    public String getFoodTypeName() {
         return foodTypeName;
     }
 
-    public void setFoodTypeName(Integer foodTypeName) {
+    public void setFoodTypeName(String foodTypeName) {
         this.foodTypeName = foodTypeName;
     }
 
@@ -85,7 +85,7 @@ public class Food extends BaseClass {
 
     @Override
     public String toString() {
-        return "Food2{" +
+        return "Food{" +
                 "name='" + name + '\'' +
                 ", foodTypeId=" + foodTypeId +
                 ", foodTypeName=" + foodTypeName +

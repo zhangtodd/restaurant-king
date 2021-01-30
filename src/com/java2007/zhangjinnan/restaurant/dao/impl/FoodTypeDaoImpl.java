@@ -43,7 +43,7 @@ public class FoodTypeDaoImpl implements FoodTypeDao {
     @Override
     public int update(FoodType foodType) throws SQLException {
         QueryRunner runner = new QueryRunner();
-        String sql = "UPDATE food_type SET name = ? , update_time = NOW()  WHERE id = ?";
+        String sql = "UPDATE food_type SET name = ? , update_time = NOW() WHERE id = ?";
         return runner.update(JdbcUtil.getConnection(), sql, foodType.getName(), foodType.getId());
     }
 

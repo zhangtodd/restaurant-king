@@ -7,6 +7,10 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="all,follow">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+
     <!-- Bootstrap CSS-->
     <link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css">
     <!-- Font Awesome CSS-->
@@ -92,11 +96,11 @@
                         <div class="card-body">
                             <form class="form-inline">
                                 <div class="form-group">
-                                    <label for="inlineFormInput" class="sr-only">table-name</label>
-                                    <input id="inlineFormInput" type="text" class="mr-3 form-control">
+                                    <label for="search-keyword" class="sr-only">table-name</label>
+                                    <input id="search-keyword" type="text" class="mr-3 form-control">
                                 </div>
                                 <div class="form-group">
-                                    <input type="submit" value="搜索" class="mr-3 btn btn-primary">
+                                    <input id="search" type="button" value="搜索" class="mr-3 btn btn-primary">
                                 </div>
                             </form>
                         </div>
@@ -108,7 +112,7 @@
                 <div class="col-lg-10">
                     <div class="card">
                         <div class="card-header">
-                            <h4>菜品列表</h4>
+                            <h4>菜品列表</h4> <a>鼠标移到菜名上查看简介</a>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -124,31 +128,13 @@
                                         <th>删除</th>
                                     </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody id="food-table-tbody">
                                     <tr>
                                         <th scope="row">1</th>
                                         <td>Mark</td>
                                         <td>Otto</td>
                                         <td>@mdo</td>
                                         <td>@mdo</td>
-                                        <td><a href="#" class="btn btn-xs btn-outline-info">更新</a></td>
-                                        <td><a href="#" class="btn btn-xs btn-outline-danger">删除</a></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">2</th>
-                                        <td>Jacob</td>
-                                        <td>Thornton</td>
-                                        <td>@fat</td>
-                                        <td>@fat</td>
-                                        <td><a href="#" class="btn btn-xs btn-outline-info">更新</a></td>
-                                        <td><a href="#" class="btn btn-xs btn-outline-danger">删除</a></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">3</th>
-                                        <td>Larry</td>
-                                        <td>the Bird</td>
-                                        <td>@twitter</td>
-                                        <td>@twitter</td>
                                         <td><a href="#" class="btn btn-xs btn-outline-info">更新</a></td>
                                         <td><a href="#" class="btn btn-xs btn-outline-danger">删除</a></td>
                                     </tr>
@@ -173,16 +159,16 @@
                                     <div class="form-group row">
                                         <label class="col-sm-2 form-control-label">菜名</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control">
+                                            <input id="add-food-name" type="text" class="form-control">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label class="col-sm-2 form-control-label">菜系</label>
                                         <div class="col-sm-10 mb-3">
-                                            <select name="account" class="form-control">
-                                                <option>杭帮菜</option>
-                                                <option>上海菜</option>
-                                                <option>粤菜</option>
+                                            <select id="add-food-type" name="account" class="form-control">
+                                                <option name="small">小菜</option>
+                                                <option name="medium">中菜</option>
+                                                <option name="large">大菜</option>
                                             </select>
                                         </div>
                                     </div>
@@ -192,7 +178,7 @@
                                             <div class="input-group">
                                                 <div class="input-group-prepend"><span class="input-group-text">¥</span>
                                                 </div>
-                                                <input type="text" class="form-control">
+                                                <input id="add-food-price" type="text" class="form-control">
                                             </div>
                                             <span class="text-small text-gray help-block-none">以元为单位计价</span>
                                         </div>
@@ -203,7 +189,7 @@
                                             <div class="input-group">
                                                 <div class="input-group-prepend"><span class="input-group-text">¥</span>
                                                 </div>
-                                                <input type="text" class="form-control">
+                                                <input id="add-food-member-price" type="text" class="form-control">
                                             </div>
                                             <span class="text-small text-gray help-block-none">以元为单位计价</span>
                                         </div>
@@ -211,21 +197,21 @@
                                     <div class="form-group row">
                                         <label class="col-sm-2 form-control-label">简介</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control">
+                                            <input id="add-food-description" type="text" class="form-control">
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
                                         <label class="col-sm-2 form-control-label">图片</label>
                                         <div class="col-sm-10">
-                                            <input type="file" class="btn btn-secondary">
+                                            <input id="add-food-img" type="file" class="btn btn-secondary">
                                         </div>
                                     </div>
 
                                     <div class="line"></div>
                                     <div class="form-group row">
                                         <div class="col-sm-4 offset-sm-2">
-                                            <button type="submit" class="btn btn-primary">保存菜品</button>
+                                            <button id="add-food" type="button" class="btn btn-primary">保存菜品</button>
                                         </div>
                                     </div>
                                 </form>
@@ -251,5 +237,95 @@
 <script src="vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
 <!-- Main File-->
 <script src="js/front.js"></script>
+
+
+<script>
+    //删除方法
+    function deleteTd(id) {
+        console.log(id);
+    }
+
+    //更新方法
+    function updateTd(id) {
+        console.log(id);
+        const tdDom = document.getElementById(id);
+        //获取菜名
+        const name = tdDom.getAttribute("name");
+        console.log(name);
+
+    }
+
+    const reloadTable = function (data) {
+        const tbody = $("#food-table-tbody");
+        $("#food-table-tbody > tr").remove();
+        data.forEach(function (item, index) {
+            const j = index + 1;
+            tbody.append(
+                `<tr>
+                 <th scope="row">${j}</th>
+                 <td id=${item.id} name=${item.name}>
+                 <a class="tooltip-test" data-toggle="tooltip"
+                    title=${item.description}>
+                    ${item.name}
+                 </a></td>
+                 <td>${item.foodTypeName}</td>
+                 <td>${item.price}</td>
+                 <td>${item.memberPrice}</td>
+                 <td><a href="#" class="btn btn-xs btn-outline-info">更新</a></td>
+                 <td><a href="#" class="btn btn-xs btn-outline-danger">删除</a></td>
+                </tr>
+                `
+            )
+        })
+    };
+
+
+    const reloadSelect = function (data) {
+        const tbody = $("#add-food-type");
+        $("#add-food-type > option").remove();
+        data.forEach(function (item, index) {
+            tbody.append(
+                `<option name=${item.id}>${item.name}</option>`
+            )
+        })
+    };
+
+    $(function () {
+        $.get("/food", function (data) {
+            reloadTable(data);
+        }, "json");
+        $.get("/food-type", function (data) {
+            reloadSelect(data);
+        }, "json");
+
+    });
+    $("#search").click(function () {
+        const keyword = $("#search-keyword").val();
+        $.get("/food", {"method": "search", "keyword": keyword}, function (data) {
+            reloadTable(data);
+        }, "json");
+    });
+    $("#add-food").click(function () {
+        const name = $("#add-food-name").val();
+        const typeName = $("#add-food-type").val();
+        const typeId = $("#add-food-type option:selected").attr("name");
+        const price = $("#add-food-price").val();
+        const memberPrice = $("#add-food-member-price").val();
+        const image = $("#add-food-img").val();
+        const description = $("#add-food-description").val();
+
+       // $.post("/food",
+        //     {"method": "save", "name": name},
+        //     function (data) {
+        //         alert(data);
+        //         reloadTable(data);
+        //     }, "json"
+        // );
+
+    });
+
+</script>
+
+
 </body>
 </html>

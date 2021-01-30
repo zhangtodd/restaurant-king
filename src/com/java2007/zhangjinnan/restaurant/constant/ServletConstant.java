@@ -6,6 +6,6 @@ public interface ServletConstant {
     String PRE_REDIRECT = "redirect:";
 
     String COMMON_ERROR_MESSAGE =
-            "<script>alert('服务器正忙，请稍后重试');location.href='/index.jsp'</script>";
+            "<script>alert('服务器正忙，请稍后重试');</script>";
 
 }

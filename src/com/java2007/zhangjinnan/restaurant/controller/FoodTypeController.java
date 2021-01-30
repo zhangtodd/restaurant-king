@@ -43,8 +43,8 @@ public class FoodTypeController extends BaseServlet {
     public List<FoodType> update(HttpServletRequest request, HttpServletResponse response) throws Exception {
         Map<String, String[]> parameterMap = request.getParameterMap();
         FoodType foodType = new FoodType();
-
         BeanUtils.populate(foodType, parameterMap);
+
         foodTypeService.update(foodType);
         return foodTypeService.findByTypeName("");
     }
