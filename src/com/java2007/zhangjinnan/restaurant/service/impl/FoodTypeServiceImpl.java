@@ -22,9 +22,9 @@ public class FoodTypeServiceImpl implements FoodTypeService {
     }
 
     @Override
-    public List<FoodType> findByTypeName(String typeName) throws SQLException {
+    public List<FoodType> findByTypeName(String keyword) throws SQLException {
         return foodTypeDao.findByTypeName
-                (StringUtils.isEmpty(typeName) ? "" : typeName.trim());
+                (StringUtils.isEmpty(keyword) ? "" : keyword.trim());
     }
 
     @Override

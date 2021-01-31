@@ -6,4 +6,8 @@ public interface ServiceConstant {
 
     String FOOD =
             "com.java2007.zhangjinnan.restaurant.service.impl.FoodServiceImpl";
+
+    String DiningTable =
+            "com.java2007.zhangjinnan.restaurant.service.impl.DiningTableServiceImpl";
+
 }

@@ -28,8 +28,8 @@ public class DiningTableDaoImpl implements DiningTableDao {
     @Override
     public int save(DiningTable diningTable) throws SQLException {
         QueryRunner runner = new QueryRunner();
-        String sql = "INSERT INTO dining_table (name,create_time,update_time,is_booking) VALUES (?,NOW(),NOW()，?)";
-        return runner.update(JdbcUtil.getConnection(), sql, diningTable.getName(), 0);
+        String sql = "INSERT INTO dining_table (name,create_time,update_time,is_booking) VALUES (?,NOW(),NOW()，0)";
+        return runner.update(JdbcUtil.getConnection(), sql, diningTable.getName());
     }
 
     @Override

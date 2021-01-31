@@ -7,4 +7,7 @@ public interface DaoConstant {
     String FOOD =
             "com.java2007.zhangjinnan.restaurant.dao.impl.FoodDaoImpl";
 
+    String DiningTable =
+            "com.java2007.zhangjinnan.restaurant.dao.impl.DiningTableDaoImpl";
+
 }
