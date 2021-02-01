@@ -29,6 +29,16 @@ public class Order {
         this.isPay = isPay;
     }
 
+    public Order(Long id, Integer diningTableId, String diningTableName, Integer memberId, String memberName, Integer totalAmount, Integer isPay) {
+        this.id = id;
+        this.diningTableId = diningTableId;
+        this.diningTableName = diningTableName;
+        this.memberId = memberId;
+        this.memberName = memberName;
+        this.totalAmount = totalAmount;
+        this.isPay = isPay;
+    }
+
     public Order(Long id, Date createTime, Date updateTime, Integer diningTableId, String diningTableName,
                  Integer memberId, String memberName, Integer totalAmount, Integer isPay) {
         this.id = id;

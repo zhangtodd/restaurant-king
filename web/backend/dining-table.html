@@ -127,7 +127,7 @@
                                         <th>删除</th>
                                     </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody id="dining-table-tbody">
                                     <tr>
                                         <th scope="row">1</th>
                                         <td>Mark</td>
@@ -180,27 +180,62 @@
 <script src="js/front.js"></script>
 
 <script>
+
+    //时间转换
+    function formatTen(num) {
+        return num > 9 ? (num + "") : ("0" + num);
+    }
+
+    function formatDate(date) {
+        var date = new Date(date)
+        var year = date.getFullYear();
+        var month = date.getMonth() + 1;
+        var day = date.getDate();
+        var hour = date.getHours();
+        var minute = date.getMinutes();
+        var second = date.getSeconds();
+        return year + "-" + formatTen(month) + "-" + formatTen(day) + " " + formatTen(hour) + ":" + formatTen(minute) + ":" + formatTen(second);
+    }
+
     const reloadTable = function (data) {
-        const tbody = $("#food-table-tbody");
-        $("#food-table-tbody > tr").remove();
+        const tbody = $("#dining-table-tbody");
+        $("#dining-table-tbody > tr").remove();
         data.forEach(function (item, index) {
             const j = index + 1;
-            if(item.isBooking===1){
-
-            }else {
-
+            if (item.isBooking === 1 || item.isBooking === "1") {
+                const newDate = formatDate(new Date(item.bookingTime));
+                tbody.append(
+                    `<tr>
+                        <th scope="row">${j}</th>
+                        <td id=${item.id} name=${item.name}>${item.name}</td>
+                        <td>已预定</td>
+                        <td>${newDate}</td>
+                        <td><a href="#" class="btn btn-xs btn-info">退订</a></td>
+                        <td><a href="#" class="btn btn-xs btn-outline-danger disabled">删除</a></td>
+                    </tr>`
+                );
+            } else {
+                tbody.append(
+                    `<tr>
+                        <th scope="row">${j}</th>
+                        <td id=${item.id} name=${item.name}>${item.name}</td>
+                        <td>未预定</td>
+                        <td></td>
+                        <td><a href="#" class="btn btn-xs btn-outline-info">预定</a></td>
+                        <td><a href="#" class="btn btn-xs btn-outline-danger">删除</a></td>
+                    </tr>`
+                );
             }
-            // tbody.append(
-            //     `<tr>
-            //         <th scope="row"> ${j} </th>
-            //         <td id=${item.id} name=${item.name}> ${item.name} </td>
-            //         <td><a href="#" class="btn btn-xs btn-outline-info" onclick='updateTd(${item.id})'>更新</a></td>
-            //         <td><a href="#" class="btn btn-xs btn-outline-danger" onclick="deleteTd(${item.id})">删除</a></td>
-            //      </tr>
-            //     `
-            // )
         })
     };
+
+    $(function () {
+        $.get("/dining-table", function (data) {
+            reloadTable(data);
+        }, "json")
+    });
+
+    //TODO search and add
 
 
 </script>

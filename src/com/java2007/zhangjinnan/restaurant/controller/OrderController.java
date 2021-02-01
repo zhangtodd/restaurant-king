@@ -1,8 +1,10 @@
 package com.java2007.zhangjinnan.restaurant.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.java2007.zhangjinnan.restaurant.constant.ServiceConstant;
 import com.java2007.zhangjinnan.restaurant.factory.BeanFactory;
 import com.java2007.zhangjinnan.restaurant.pojo.Order;
+import com.java2007.zhangjinnan.restaurant.pojo.OrderDetail;
 import com.java2007.zhangjinnan.restaurant.service.OrderDetailService;
 import com.java2007.zhangjinnan.restaurant.service.OrderService;
 
@@ -31,8 +33,9 @@ public class OrderController extends BaseServlet {
     }
 
     public Long saveOrder(HttpServletRequest request, HttpServletResponse response) throws SQLException {
-        Order order = new Order();
         long orderId = System.currentTimeMillis();
+
+        Order order = new Order();
         order.setId(orderId);
         order.setDiningTableId(Integer.valueOf(request.getParameter("dining-table-id")));
         order.setDiningTableName(request.getParameter("dining-table-name"));
@@ -42,8 +45,11 @@ public class OrderController extends BaseServlet {
 
         orderService.save(order);
         String orderListStr = request.getParameter("order-list");
-
-        //TODO
+        List<OrderDetail> orderDetailList = JSON.parseArray(orderListStr, OrderDetail.class);
+        for (OrderDetail orderDetail : orderDetailList) {
+            orderDetail.setOrderId(orderId);
+            orderDetailService.save(orderDetail);
+        }
 
         return orderId;
     }
