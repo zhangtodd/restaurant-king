@@ -1,6 +1,12 @@
 package com.java2007.zhangjinnan.restaurant.pojo;
 
-public class Member extends BaseClass {
+import java.util.Date;
+
+public class Member {
+    private Integer id;
+    private Date createTime;
+    private Date updateTime;
+
     private String name;
     private String password;
     private String email;
@@ -21,6 +27,42 @@ public class Member extends BaseClass {
         this.phone = phone;
         this.role = role;
         this.level = level;
+    }
+
+    public Member(Integer id, Date createTime, Date updateTime, String name, String password, String email, String phone, String role, Integer level) {
+        this.id = id;
+        this.createTime = createTime;
+        this.updateTime = updateTime;
+        this.name = name;
+        this.password = password;
+        this.email = email;
+        this.phone = phone;
+        this.role = role;
+        this.level = level;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 
     public String getName() {
@@ -69,5 +111,20 @@ public class Member extends BaseClass {
 
     public void setLevel(Integer level) {
         this.level = level;
+    }
+
+    @Override
+    public String toString() {
+        return "Member{" +
+                "id=" + id +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", role='" + role + '\'' +
+                ", level=" + level +
+                '}';
     }
 }

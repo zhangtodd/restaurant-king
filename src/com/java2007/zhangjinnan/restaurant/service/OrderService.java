@@ -9,7 +9,7 @@ public interface OrderService {
 
     int save(Order order) throws SQLException;
 
-    int updateOrderStatus(int orderId) throws SQLException;
+    int updateOrderStatus(Long orderId) throws SQLException;
 
     List<Order> findAll() throws SQLException;
 

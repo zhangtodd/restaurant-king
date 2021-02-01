@@ -2,7 +2,11 @@ package com.java2007.zhangjinnan.restaurant.pojo;
 
 import java.util.Date;
 
-public class Order extends BaseClass {
+public class Order {
+    private Long id;
+    private Date createTime;
+    private Date updateTime;
+
     private Integer diningTableId;
     private String diningTableName;
     private Integer memberId;
@@ -15,15 +19,51 @@ public class Order extends BaseClass {
     public Order() {
     }
 
-    public Order(Integer id, Date createTime, Date updateTime, Integer diningTableId, String diningTableName,
-                 Integer memberId, String memberName, Integer totalAmount, Integer isPay) {
-        super(id, createTime, updateTime);
+    public Order(Integer diningTableId, String diningTableName, Integer memberId, String memberName,
+                 Integer totalAmount, Integer isPay) {
         this.diningTableId = diningTableId;
         this.diningTableName = diningTableName;
         this.memberId = memberId;
         this.memberName = memberName;
         this.totalAmount = totalAmount;
         this.isPay = isPay;
+    }
+
+    public Order(Long id, Date createTime, Date updateTime, Integer diningTableId, String diningTableName,
+                 Integer memberId, String memberName, Integer totalAmount, Integer isPay) {
+        this.id = id;
+        this.createTime = createTime;
+        this.updateTime = updateTime;
+        this.diningTableId = diningTableId;
+        this.diningTableName = diningTableName;
+        this.memberId = memberId;
+        this.memberName = memberName;
+        this.totalAmount = totalAmount;
+        this.isPay = isPay;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 
     public Integer getDiningTableId() {
@@ -77,7 +117,10 @@ public class Order extends BaseClass {
     @Override
     public String toString() {
         return "Order{" +
-                "diningTableId=" + diningTableId +
+                "id=" + id +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                ", diningTableId=" + diningTableId +
                 ", diningTableName='" + diningTableName + '\'' +
                 ", memberId=" + memberId +
                 ", memberName='" + memberName + '\'' +

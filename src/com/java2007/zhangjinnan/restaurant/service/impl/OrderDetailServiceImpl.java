@@ -29,7 +29,7 @@ public class OrderDetailServiceImpl implements OrderDetailService {
     }
 
     @Override
-    public List<OrderDetail> findByOrderId(int orderId) throws SQLException {
+    public List<OrderDetail> findByOrderId(Long orderId) throws SQLException {
         return orderDetailDao.findByOrderId(orderId);
     }
 }

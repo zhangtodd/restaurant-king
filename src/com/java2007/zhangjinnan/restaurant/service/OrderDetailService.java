@@ -8,6 +8,6 @@ import java.util.List;
 public interface OrderDetailService {
     int save(OrderDetail orderDetail);
 
-    List<OrderDetail> findByOrderId(int orderId) throws SQLException;
+    List<OrderDetail> findByOrderId(Long orderId) throws SQLException;
 
 }

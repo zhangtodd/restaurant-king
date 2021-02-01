@@ -9,6 +9,6 @@ public interface OrderDetailDao {
 
     int save(OrderDetail orderDetail) throws SQLException;
 
-    List<OrderDetail> findByOrderId(int orderId) throws SQLException;
+    List<OrderDetail> findByOrderId(Long orderId) throws SQLException;
 
 }

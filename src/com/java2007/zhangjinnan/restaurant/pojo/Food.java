@@ -2,7 +2,11 @@ package com.java2007.zhangjinnan.restaurant.pojo;
 
 import java.util.Date;
 
-public class Food extends BaseClass {
+public class Food {
+    private Integer id;
+    private Date createTime;
+    private Date updateTime;
+
     private String name;
     private Integer foodTypeId;
     private String foodTypeName;
@@ -15,9 +19,7 @@ public class Food extends BaseClass {
     public Food() {
     }
 
-    public Food(Integer id, Date createTime, Date updateTime, String name, Integer foodTypeId, String foodTypeName,
-                Integer price, Integer memberPrice, String image, String description) {
-        super(id, createTime, updateTime);
+    public Food(String name, Integer foodTypeId, String foodTypeName, Integer price, Integer memberPrice, String image, String description) {
         this.name = name;
         this.foodTypeId = foodTypeId;
         this.foodTypeName = foodTypeName;
@@ -25,6 +27,44 @@ public class Food extends BaseClass {
         this.memberPrice = memberPrice;
         this.image = image;
         this.description = description;
+    }
+
+    public Food(Integer id, Date createTime, Date updateTime, String name, Integer foodTypeId, String foodTypeName,
+                Integer price, Integer memberPrice, String image, String description) {
+        this.id = id;
+        this.createTime = createTime;
+        this.updateTime = updateTime;
+        this.name = name;
+        this.foodTypeId = foodTypeId;
+        this.foodTypeName = foodTypeName;
+        this.price = price;
+        this.memberPrice = memberPrice;
+        this.image = image;
+        this.description = description;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 
     public String getName() {
@@ -86,9 +126,12 @@ public class Food extends BaseClass {
     @Override
     public String toString() {
         return "Food{" +
-                "name='" + name + '\'' +
+                "id=" + id +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                ", name='" + name + '\'' +
                 ", foodTypeId=" + foodTypeId +
-                ", foodTypeName=" + foodTypeName +
+                ", foodTypeName='" + foodTypeName + '\'' +
                 ", price=" + price +
                 ", memberPrice=" + memberPrice +
                 ", image='" + image + '\'' +

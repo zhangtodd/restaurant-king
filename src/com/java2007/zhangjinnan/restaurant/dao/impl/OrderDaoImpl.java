@@ -20,7 +20,7 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public int updateOrderStatus(int orderId) throws SQLException {
+    public int updateOrderStatus(Long orderId) throws SQLException {
         QueryRunner runner = new QueryRunner();
         String sql = "UPDATE order SET is_pay = 1,update_time = NOW() WHERE id = ?";
         return runner.update(JdbcUtil.getConnection(), sql, orderId);

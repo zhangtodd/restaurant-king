@@ -21,7 +21,7 @@ public class OrderDetailDaoImpl implements OrderDetailDao {
     }
 
     @Override
-    public List<OrderDetail> findByOrderId(int orderId) throws SQLException {
+    public List<OrderDetail> findByOrderId(Long orderId) throws SQLException {
         QueryRunner runner = new QueryRunner(JdbcUtil.getDataSource());
         String sql = "SELECT id,order_id orderId,food_id foodId,price,number,amount " +
                 "FROM order_detail WHERE order_id = ? ";

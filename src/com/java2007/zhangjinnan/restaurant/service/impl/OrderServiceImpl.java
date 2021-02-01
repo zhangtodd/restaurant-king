@@ -30,7 +30,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public int updateOrderStatus(int orderId) throws SQLException {
+    public int updateOrderStatus(Long orderId) throws SQLException {
         try {
             JdbcUtil.begin();
             orderDao.updateOrderStatus(orderId);

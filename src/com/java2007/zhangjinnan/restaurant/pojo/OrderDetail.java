@@ -1,10 +1,10 @@
 package com.java2007.zhangjinnan.restaurant.pojo;
 
-import java.util.Date;
-
-public class OrderDetail extends BaseClass {
-    private Integer orderId;
+public class OrderDetail {
+    private Integer id;
+    private Long orderId;
     private Integer foodId;
+    private String foodName;
     //price in cents
     private Integer price;
     private Integer number;
@@ -13,20 +13,38 @@ public class OrderDetail extends BaseClass {
     public OrderDetail() {
     }
 
-    public OrderDetail(Integer id, Date createTime, Date updateTime, Integer orderId, Integer foodId, Integer price, Integer number, Integer amount) {
-        super(id, createTime, updateTime);
+    public OrderDetail(Long orderId, Integer foodId, String foodName, Integer price, Integer number, Integer amount) {
         this.orderId = orderId;
         this.foodId = foodId;
+        this.foodName = foodName;
         this.price = price;
         this.number = number;
         this.amount = amount;
     }
 
-    public Integer getOrderId() {
+    public OrderDetail(Integer id, Long orderId, Integer foodId, String foodName, Integer price, Integer number, Integer amount) {
+        this.id = id;
+        this.orderId = orderId;
+        this.foodId = foodId;
+        this.foodName = foodName;
+        this.price = price;
+        this.number = number;
+        this.amount = amount;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Long getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(Integer orderId) {
+    public void setOrderId(Long orderId) {
         this.orderId = orderId;
     }
 
@@ -36,6 +54,14 @@ public class OrderDetail extends BaseClass {
 
     public void setFoodId(Integer foodId) {
         this.foodId = foodId;
+    }
+
+    public String getFoodName() {
+        return foodName;
+    }
+
+    public void setFoodName(String foodName) {
+        this.foodName = foodName;
     }
 
     public Integer getPrice() {
@@ -65,8 +91,10 @@ public class OrderDetail extends BaseClass {
     @Override
     public String toString() {
         return "OrderDetail{" +
-                "orderId=" + orderId +
+                "id=" + id +
+                ", orderId=" + orderId +
                 ", foodId=" + foodId +
+                ", foodName='" + foodName + '\'' +
                 ", price=" + price +
                 ", number=" + number +
                 ", amount=" + amount +
