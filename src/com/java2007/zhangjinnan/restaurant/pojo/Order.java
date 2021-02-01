@@ -1,5 +1,7 @@
 package com.java2007.zhangjinnan.restaurant.pojo;
 
+import java.util.Date;
+
 public class Order extends BaseClass {
     private Integer diningTableId;
     private String diningTableName;
@@ -8,12 +10,14 @@ public class Order extends BaseClass {
 
     //price in cents
     private Integer totalAmount;
-    private Boolean isPay;
+    private Integer isPay;
 
     public Order() {
     }
 
-    public Order(Integer diningTableId, String diningTableName, Integer memberId, String memberName, Integer totalAmount, Boolean isPay) {
+    public Order(Integer id, Date createTime, Date updateTime, Integer diningTableId, String diningTableName,
+                 Integer memberId, String memberName, Integer totalAmount, Integer isPay) {
+        super(id, createTime, updateTime);
         this.diningTableId = diningTableId;
         this.diningTableName = diningTableName;
         this.memberId = memberId;
@@ -62,11 +66,23 @@ public class Order extends BaseClass {
         this.totalAmount = totalAmount;
     }
 
-    public Boolean getPay() {
+    public Integer getIsPay() {
         return isPay;
     }
 
-    public void setPay(Boolean pay) {
-        isPay = pay;
+    public void setIsPay(Integer isPay) {
+        this.isPay = isPay;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "diningTableId=" + diningTableId +
+                ", diningTableName='" + diningTableName + '\'' +
+                ", memberId=" + memberId +
+                ", memberName='" + memberName + '\'' +
+                ", totalAmount=" + totalAmount +
+                ", isPay=" + isPay +
+                '}';
     }
 }

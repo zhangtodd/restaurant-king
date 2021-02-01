@@ -15,7 +15,7 @@ import java.util.Map;
 @WebServlet("/dining-table")
 public class DiningTableController extends BaseServlet {
     private DiningTableService diningTableService =
-            (DiningTableService) BeanFactory.getBean(ServiceConstant.DiningTable);
+            (DiningTableService) BeanFactory.getBean(ServiceConstant.DINING_TABLE);
 
     public List<DiningTable> search(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String keyword = request.getParameter("keyword");

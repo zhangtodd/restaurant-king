@@ -5,7 +5,6 @@ import java.util.Date;
 public class OrderDetail extends BaseClass {
     private Integer orderId;
     private Integer foodId;
-
     //price in cents
     private Integer price;
     private Integer number;

@@ -13,7 +13,7 @@ import java.util.List;
 
 public class DiningTableServiceImpl implements DiningTableService {
     private DiningTableDao diningTableDao =
-            (DiningTableDao) BeanFactory.getBean(DaoConstant.DiningTable);
+            (DiningTableDao) BeanFactory.getBean(DaoConstant.DINING_TABLE);
 
     @Override
     public List<DiningTable> findAll() throws SQLException {

@@ -7,7 +7,12 @@ public interface ServiceConstant {
     String FOOD =
             "com.java2007.zhangjinnan.restaurant.service.impl.FoodServiceImpl";
 
-    String DiningTable =
+    String DINING_TABLE =
             "com.java2007.zhangjinnan.restaurant.service.impl.DiningTableServiceImpl";
 
+    String ORDER =
+            "com.java2007.zhangjinnan.restaurant.service.impl.OrderServiceImpl";
+
+    String ORDER_DETAIL =
+            "com.java2007.zhangjinnan.restaurant.service.impl.OrderDetailServiceImpl";
 }
