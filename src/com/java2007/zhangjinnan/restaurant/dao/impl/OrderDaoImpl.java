@@ -29,6 +29,7 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public List<Order> findAll() throws SQLException {
         QueryRunner runner = new QueryRunner(JdbcUtil.getDataSource());
+        //TODO ERROR
         String sql = "SELECT id,create_time createTime,update_time updateTime,dining_table_id diningTableId , " +
                 "dining_table_name diningTableName,member_id memberId,member_name memberName," +
                 "total_amount totalAmount,is_pay isPay FROM order";

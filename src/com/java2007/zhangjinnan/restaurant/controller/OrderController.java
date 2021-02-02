@@ -5,7 +5,6 @@ import com.java2007.zhangjinnan.restaurant.constant.ServiceConstant;
 import com.java2007.zhangjinnan.restaurant.factory.BeanFactory;
 import com.java2007.zhangjinnan.restaurant.pojo.Order;
 import com.java2007.zhangjinnan.restaurant.pojo.OrderDetail;
-import com.java2007.zhangjinnan.restaurant.service.OrderDetailService;
 import com.java2007.zhangjinnan.restaurant.service.OrderService;
 
 import javax.servlet.annotation.WebServlet;
@@ -18,9 +17,6 @@ import java.util.List;
 public class OrderController extends BaseServlet {
     private OrderService orderService =
             (OrderService) BeanFactory.getBean(ServiceConstant.ORDER);
-
-    private OrderDetailService orderDetailService =
-            (OrderDetailService) BeanFactory.getBean(ServiceConstant.ORDER_DETAIL);
 
     public List<Order> getAll(HttpServletRequest request, HttpServletResponse response) throws SQLException {
         return orderService.findAll();
@@ -43,13 +39,10 @@ public class OrderController extends BaseServlet {
         order.setMemberName(request.getParameter("member-name"));
         order.setTotalAmount(Integer.valueOf(request.getParameter("total-amount")));
 
-        orderService.save(order);
         String orderListStr = request.getParameter("order-list");
         List<OrderDetail> orderDetailList = JSON.parseArray(orderListStr, OrderDetail.class);
-        for (OrderDetail orderDetail : orderDetailList) {
-            orderDetail.setOrderId(orderId);
-            orderDetailService.save(orderDetail);
-        }
+
+        orderService.saveOrderAndDetail(order, orderDetailList);
 
         return orderId;
     }

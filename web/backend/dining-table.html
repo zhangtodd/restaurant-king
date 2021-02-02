@@ -96,11 +96,11 @@
                         <div class="card-body">
                             <form class="form-inline">
                                 <div class="form-group">
-                                    <label for="inlineFormInput" class="sr-only">table-name</label>
-                                    <input id="inlineFormInput" type="text" class="mr-3 form-control">
+                                    <label for="search-keyword" class="sr-only">table-name</label>
+                                    <input id="search-keyword" type="text" class="mr-3 form-control">
                                 </div>
                                 <div class="form-group">
-                                    <input type="submit" value="搜索" class="mr-3 btn btn-primary">
+                                    <input id="search" type="button" value="搜索" class="mr-3 btn btn-primary">
                                 </div>
                             </form>
                         </div>
@@ -151,11 +151,11 @@
                         <div class="card-body">
                             <form class="form-inline">
                                 <div class="form-group">
-                                    <label for="inlineFormInput" class="sr-only">table-name</label>
-                                    <input id="addlineFormInput" type="text" class="mr-3 form-control">
+                                    <label for="add-table-name" class="sr-only">table-name</label>
+                                    <input id="add-table-name" type="text" class="mr-3 form-control">
                                 </div>
                                 <div class="form-group">
-                                    <input type="submit" value="新增" class="mr-3 btn btn-primary">
+                                    <input id="add-type" type="button" value="新增" class="mr-3 btn btn-primary">
                                 </div>
                             </form>
                         </div>
@@ -236,6 +236,21 @@
     });
 
     //TODO search and add
+    $("#search").click(function () {
+        const keyword = $("#search-keyword").val();
+        $.get("/dining-table", {"method": "search", "keyword": keyword}, function (data) {
+            reloadTable(data);
+        }, "json");
+    });
+
+    $("#add-type").click(function () {
+        const name = $("#add-table-name").val();
+        $.post("/dining-table", {"method": "save", "name": name}, function (data) {
+            reloadTable(data);
+        }, "json");
+    });
+
+
 
 
 </script>
