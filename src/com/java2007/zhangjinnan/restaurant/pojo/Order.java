@@ -14,6 +14,7 @@ public class Order {
 
     //price in cents
     private Integer totalAmount;
+    //0:下单状态 1:结账状态 -1:退单状态
     private Integer isPay;
 
     public Order() {

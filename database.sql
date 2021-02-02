@@ -32,7 +32,7 @@ CREATE TABLE `dining_table` (
   `member_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -99,28 +99,6 @@ CREATE TABLE `member` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `order`
---
-
-DROP TABLE IF EXISTS `order`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `order` (
-  `id` bigint(20) NOT NULL,
-  `create_time` datetime NOT NULL,
-  `update_time` datetime NOT NULL,
-  `dining_table_id` int(11) NOT NULL,
-  `dining_table_name` varchar(45) NOT NULL,
-  `member_id` int(11) NOT NULL,
-  `member_name` varchar(45) NOT NULL,
-  `total_amount` int(11) NOT NULL,
-  `is_pay` tinyint(4) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Table structure for table `order_detail`
 --
 
@@ -131,9 +109,32 @@ CREATE TABLE `order_detail` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `order_id` bigint(20) NOT NULL,
   `food_id` int(11) NOT NULL,
+  `food_name` varchar(45) NOT NULL,
   `price` int(11) NOT NULL,
   `number` int(11) NOT NULL,
   `amount` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `order_list`
+--
+
+DROP TABLE IF EXISTS `order_list`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `order_list` (
+  `id` bigint(20) NOT NULL,
+  `create_time` datetime NOT NULL,
+  `update_time` datetime NOT NULL,
+  `dining_table_id` int(11) NOT NULL,
+  `dining_table_name` varchar(45) NOT NULL,
+  `member_id` int(11) NOT NULL,
+  `member_name` varchar(45) NOT NULL,
+  `total_amount` int(11) NOT NULL,
+  `is_pay` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -148,4 +149,4 @@ CREATE TABLE `order_detail` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-02-01 17:44:28
+-- Dump completed on 2021-02-02 22:30:51

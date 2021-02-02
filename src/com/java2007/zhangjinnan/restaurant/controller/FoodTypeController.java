@@ -23,16 +23,15 @@ public class FoodTypeController extends BaseServlet {
         return types;
     }
 
-    public int delete(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public List<FoodType> delete(HttpServletRequest request, HttpServletResponse response) throws Exception {
         int id = Integer.parseInt(request.getParameter("id"));
-        return foodTypeService.deleteByTypeId(id);
+        foodTypeService.deleteByTypeId(id);
+        return foodTypeService.findByTypeName("");
     }
 
     public FoodType findById(HttpServletRequest request, HttpServletResponse response) throws Exception {
         int id = Integer.parseInt(request.getParameter("id"));
-        FoodType foodType = foodTypeService.findByTypeId(id);
-        request.setAttribute("type", foodType);
-        return foodType;
+        return foodTypeService.findByTypeId(id);
     }
 
     public List<FoodType> save(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -44,6 +43,7 @@ public class FoodTypeController extends BaseServlet {
         Map<String, String[]> parameterMap = request.getParameterMap();
         FoodType foodType = new FoodType();
         BeanUtils.populate(foodType, parameterMap);
+        System.out.println(foodType);
 
         foodTypeService.update(foodType);
         return foodTypeService.findByTypeName("");

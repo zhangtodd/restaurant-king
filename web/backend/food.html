@@ -237,6 +237,7 @@
 <script src="vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
 <!-- Main File-->
 <script src="js/front.js"></script>
+<script src="js/my-utils.js"></script>
 
 
 <script>
@@ -269,8 +270,8 @@
                     ${item.name}
                  </a></td>
                  <td>${item.foodTypeName}</td>
-                 <td>${item.price}</td>
-                 <td>${item.memberPrice}</td>
+                 <td>${intToDouble(item.price)}</td>
+                 <td>${intToDouble(item.memberPrice)}</td>
                  <td><a href="#" class="btn btn-xs btn-outline-info">更新</a></td>
                  <td><a href="#" class="btn btn-xs btn-outline-danger">删除</a></td>
                 </tr>
@@ -278,7 +279,6 @@
             )
         })
     };
-
 
     const reloadSelect = function (data) {
         const tbody = $("#add-food-type");

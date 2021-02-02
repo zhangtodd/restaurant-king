@@ -168,21 +168,35 @@
 <script src="vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
 <!-- Main File-->
 <script src="js/front.js"></script>
-
+<script src="js/my-utils.js"></script>
 
 <script>
     //删除方法
     function deleteTd(id) {
-        console.log(id);
+        const tdDom = document.getElementById(id);
+        const name = tdDom.getAttribute("name");
+        const r = confirm("确认删除 " + name + " 吗?");
+
+        if (r) {
+            console.log("delete " + id);
+            $.post("/food-type", {"method": "delete", "id": id}, function (data) {
+                reloadTable(data);
+            }, "json");
+        }
     }
 
     //更新方法
     function updateTd(id) {
-        console.log(id);
         const tdDom = document.getElementById(id);
-        //获取菜名
-        const name = tdDom.getAttribute("name");
-        console.log(name);
+        const old_name = tdDom.getAttribute("name");
+        const new_name = prompt("请输入新的菜系名称", old_name);
+
+        if (new_name !== old_name && new_name !== "" && new_name !== null) {
+            console.log("update " + old_name + " to " + new_name);
+            $.post("/food-type", {"method": "update", "id": id, "name": new_name}, function (data) {
+                reloadTable(data);
+            }, "json");
+        }
 
     }
 
@@ -214,10 +228,11 @@
         }, "json");
     });
     $("#add-type").click(function () {
-        const typename = $("#add-type-name").val();
-        $.post("/food-type", {"method": "save", "name": typename}, function (data) {
+        const typename = $("#add-type-name");
+        $.post("/food-type", {"method": "save", "name": typename.val()}, function (data) {
             reloadTable(data);
         }, "json");
+        typename.val("")
     });
 
 </script>

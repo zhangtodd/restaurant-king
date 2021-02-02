@@ -155,7 +155,7 @@
                                     <input id="add-table-name" type="text" class="mr-3 form-control">
                                 </div>
                                 <div class="form-group">
-                                    <input id="add-type" type="button" value="新增" class="mr-3 btn btn-primary">
+                                    <input id="add-dining-table" type="button" value="新增" class="mr-3 btn btn-primary">
                                 </div>
                             </form>
                         </div>
@@ -178,25 +178,9 @@
 <script src="vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
 <!-- Main File-->
 <script src="js/front.js"></script>
+<script src="js/my-utils.js"></script>
 
 <script>
-
-    //时间转换
-    function formatTen(num) {
-        return num > 9 ? (num + "") : ("0" + num);
-    }
-
-    function formatDate(date) {
-        var date = new Date(date)
-        var year = date.getFullYear();
-        var month = date.getMonth() + 1;
-        var day = date.getDate();
-        var hour = date.getHours();
-        var minute = date.getMinutes();
-        var second = date.getSeconds();
-        return year + "-" + formatTen(month) + "-" + formatTen(day) + " " + formatTen(hour) + ":" + formatTen(minute) + ":" + formatTen(second);
-    }
-
     const reloadTable = function (data) {
         const tbody = $("#dining-table-tbody");
         $("#dining-table-tbody > tr").remove();
@@ -235,7 +219,6 @@
         }, "json")
     });
 
-    //TODO search and add
     $("#search").click(function () {
         const keyword = $("#search-keyword").val();
         $.get("/dining-table", {"method": "search", "keyword": keyword}, function (data) {
@@ -243,14 +226,12 @@
         }, "json");
     });
 
-    $("#add-type").click(function () {
+    $("#add-dining-table").click(function () {
         const name = $("#add-table-name").val();
         $.post("/dining-table", {"method": "save", "name": name}, function (data) {
             reloadTable(data);
         }, "json");
     });
-
-
 
 
 </script>

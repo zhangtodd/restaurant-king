@@ -107,7 +107,7 @@
                                         <th>结账</th>
                                     </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody id="order-tbody">
                                     <tr>
                                         <th scope="row">2</th>
                                         <td>Jacob</td>
@@ -149,12 +149,63 @@
 <script src="vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
 <!-- Main File-->
 <script src="js/front.js"></script>
+<script src="js/my-utils.js"></script>
 
 <script>
+    const reloadTable = function (data) {
+        const tbody = $("#order-tbody");
+        $("#order-tbody > tr").remove();
+        data.forEach(function (item, index) {
+            const j = index + 1;
+            const newDate = formatDate(new Date(item.createTime));
+            item.totalAmount=intToDouble(item.totalAmount);
+            if (item.isPay === "1" || item.isPay === 1) {
+                const paytime = formatDate(new Date(item.updateTime));
+                tbody.append(
+                    `<tr>
+                        <th scope="row">${j}</th>
+                        <td>${item.diningTableName}</td>
+                        <td>${newDate}</td>
+                        <td>${item.totalAmount}</td>
+                        <td>已结账</td>
+                        <td><a href="#" class="btn btn-xs btn-outline-info">查看</a></td>
+                        <td><a href="#" class="btn btn-xs btn-info disabled">已结账</a></td>
+                    </tr>
+                    `
+                );
+            } else if (item.isPay === "0" || item.isPay === 0) {
+                tbody.append(
+                    `<tr>
+                        <th scope="row">${j}</th>
+                        <td>${item.diningTableName}</td>
+                        <td>${newDate}</td>
+                        <td>${item.totalAmount}</td>
+                        <td>已下单</td>
+                        <td><a href="#" class="btn btn-xs btn-outline-info">查看</a></td>
+                        <td><a href="#" class="btn btn-xs btn-outline-info">结账</a></td>
+                    </tr>
+                    `
+                );
+            }else if (item.isPay === "-1" || item.isPay === -1) {
+                tbody.append(
+                    `<tr>
+                        <th scope="row">${j}</th>
+                        <td>${item.diningTableName}</td>
+                        <td>${newDate}</td>
+                        <td>${item.totalAmount}</td>
+                        <td>已退单</td>
+                        <td><a href="#" class="btn btn-xs btn-outline-info">查看</a></td>
+                        <td><a href="#" class="btn btn-xs btn-outline-info disabled">已退单</a></td>
+                    </tr>
+                    `
+                );
+            }
+        })
+    };
 
     $(function () {
         $.get("/order", {"method": "getAll"}, function (data) {
-            console.log(data);
+            reloadTable(data);
         }, "json")
     });
 
