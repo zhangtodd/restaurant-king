@@ -1,11 +1,14 @@
 package com.java2007.zhangjinnan.restaurant.controller;
 
+import com.alibaba.druid.util.StringUtils;
 import com.java2007.zhangjinnan.restaurant.constant.ServiceConstant;
 import com.java2007.zhangjinnan.restaurant.factory.BeanFactory;
 import com.java2007.zhangjinnan.restaurant.pojo.Food;
 import com.java2007.zhangjinnan.restaurant.service.FoodService;
+import com.java2007.zhangjinnan.restaurant.utils.FileUtil;
 import org.apache.commons.beanutils.BeanUtils;
 
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 @WebServlet("/food")
+@MultipartConfig
 public class FoodController extends BaseServlet {
     private FoodService foodService =
             (FoodService) BeanFactory.getBean(ServiceConstant.FOOD);
@@ -46,5 +50,15 @@ public class FoodController extends BaseServlet {
         return foodService.findByName("");
     }
 
+    public String saveImage(HttpServletRequest request, HttpServletResponse response) {
+        String fileName = FileUtil.upload(request);
+        if (StringUtils.isEmpty(fileName)) {
+            //文件上传错误
+            return "文件上传错误";
+        }
+        String imageUrl = "/files/" + fileName;
+        System.out.println();
+        return imageUrl;
+    }
 
 }

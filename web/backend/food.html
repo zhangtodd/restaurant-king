@@ -197,7 +197,8 @@
                                     <div class="form-group row">
                                         <label class="col-sm-2 form-control-label">简介</label>
                                         <div class="col-sm-10">
-                                            <input id="add-food-description" type="text" class="form-control">
+                                            <textarea id="add-food-description" type="text"
+                                                      class="form-control"></textarea>
                                         </div>
                                     </div>
 
@@ -205,6 +206,14 @@
                                         <label class="col-sm-2 form-control-label">图片</label>
                                         <div class="col-sm-10">
                                             <input id="add-food-img" type="file" class="btn btn-secondary">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 form-control-label"></label>
+                                        <div class="col-sm-10">
+                                            <img src="" id="food-image"
+                                                 style="width: 10rem;height: 10rem; display: none">
                                         </div>
                                     </div>
 
@@ -314,7 +323,7 @@
         const image = $("#add-food-img").val();
         const description = $("#add-food-description").val();
 
-       // $.post("/food",
+        // $.post("/food",
         //     {"method": "save", "name": name},
         //     function (data) {
         //         alert(data);
@@ -322,6 +331,56 @@
         //     }, "json"
         // );
 
+    });
+
+    $("#add-food-img").change(function () {
+        const files = this.files[0];
+        const foodImg = $("#food-image");
+        if (files && files.size) {
+            const size = files.size / 1000 / 1024;
+            if (size > 2) {
+                alert('图片太大,请重新上传');
+                return;
+            }
+            const rFilter = /^(?:image\/bmp|image\/cis\-cod|image\/gif|image\/ief|image\/jpeg|image\/jpeg|image\/jpeg|image\/pipeg|image\/png|image\/svg\+xml|image\/tiff|image\/x\-cmu\-raster|image\/x\-cmx|image\/x\-icon|image\/x\-portable\-anymap|image\/x\-portable\-bitmap|image\/x\-portable\-graymap|image\/x\-portable\-pixmap|image\/x\-rgb|image\/x\-xbitmap|image\/x\-xpixmap|image\/x\-xwindowdump)$/i;
+            if (!rFilter.test(files.type)) {
+                alert('请选择图片格式');
+                return;
+            }
+            const reader = new FileReader();
+            reader.readAsDataURL(files);
+            reader.onload = function (ev) {
+                foodImg.attr("style", "width: 288px;height: 216px;");
+                foodImg.attr("src", ev.target.result);
+            };
+            // $.ajax({
+            //     type: "post",
+            //     contentType: "multipart/form-data",
+            //     data: {"method": "saveImage", "image": $("#foodImg").val()},
+            //     url: "/food",
+            //     success: function (data) {
+            //         console.log(data);
+            //     }
+            // });
+            const formData = new FormData();  // 创建form对象
+            formData.append("image", files);  // 通过append向form对象添加数据
+            formData.append("method","saveImage");
+            $.ajax({
+                url: "/food", //请求的接口地址
+                type: 'POST',
+                cache: false, //上传文件不需要缓存
+                data: formData,
+                processData: false, // 不要去处理发送的数据
+                contentType: false, // 不要去设置Content-Type请求头
+                success: function(data){
+                    console.log(data)
+                },
+                error: function(err){
+                    console.log(err)
+                }
+            })
+
+        }
     });
 
 </script>

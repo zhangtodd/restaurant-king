@@ -28,7 +28,7 @@ public class CharsetEncodingFilter implements Filter {
         String uri = request.getRequestURI();
 
         if (uri == null || uri.endsWith(".html") || uri.endsWith(".css") || uri.endsWith(".js") || uri.endsWith(".jpg")
-                || uri.contains("backend") || uri.endsWith(".jsp")) {
+                || uri.contains("backend")|| uri.contains("front") || uri.endsWith(".jsp")) {
             chain.doFilter(req, resp);
             return;
         }
