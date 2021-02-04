@@ -21,9 +21,13 @@ public class FoodTypeDaoImpl implements FoodTypeDao {
     @Override
     public List<FoodType> findByTypeName(String typeName) throws SQLException {
         QueryRunner runner = new QueryRunner(JdbcUtil.getDataSource());
-        String sql = "SELECT id, name FROM food_type WHERE name LIKE ?";
-        typeName = "%" + typeName + "%";
-        return runner.query(sql, new BeanListHandler<>(FoodType.class), typeName);
+        String sql = "SELECT id, name FROM food_type ";
+        if (!"".equals(typeName)) {
+            sql = sql + " WHERE name LIKE ?";
+            typeName = "%" + typeName + "%";
+            return runner.query(sql, new BeanListHandler<>(FoodType.class), typeName);
+        }
+        return runner.query(sql, new BeanListHandler<>(FoodType.class));
     }
 
     @Override

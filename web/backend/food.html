@@ -353,15 +353,7 @@
                 foodImg.attr("style", "width: 288px;height: 216px;");
                 foodImg.attr("src", ev.target.result);
             };
-            // $.ajax({
-            //     type: "post",
-            //     contentType: "multipart/form-data",
-            //     data: {"method": "saveImage", "image": $("#foodImg").val()},
-            //     url: "/food",
-            //     success: function (data) {
-            //         console.log(data);
-            //     }
-            // });
+
             const formData = new FormData();  // 创建form对象
             formData.append("image", files);  // 通过append向form对象添加数据
             formData.append("method","saveImage");

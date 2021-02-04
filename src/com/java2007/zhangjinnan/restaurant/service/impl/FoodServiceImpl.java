@@ -33,6 +33,11 @@ public class FoodServiceImpl implements FoodService {
     }
 
     @Override
+    public List<Food> findByTypeId(Integer typeId) throws SQLException {
+        return foodDao.findByTypeId(typeId);
+    }
+
+    @Override
     public int save(Food food) throws SQLException {
         try {
             JdbcUtil.begin();

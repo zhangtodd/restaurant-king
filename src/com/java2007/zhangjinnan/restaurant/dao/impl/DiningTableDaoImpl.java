@@ -20,9 +20,13 @@ public class DiningTableDaoImpl implements DiningTableDao {
     @Override
     public List<DiningTable> findByName(String keyword) throws SQLException {
         QueryRunner runner = new QueryRunner(JdbcUtil.getDataSource());
-        String sql = "SELECT id , name , is_booking isBooking , booking_time bookingTime FROM dining_table WHERE name LIKE ?";
-        keyword = "%" + keyword + "%";
-        return runner.query(sql, new BeanListHandler<>(DiningTable.class), keyword);
+        String sql = "SELECT id , name , is_booking isBooking , booking_time bookingTime FROM dining_table ";
+        if (null != keyword && (!"".equals(keyword))) {
+            sql=sql+" WHERE name LIKE ?";
+            keyword = "%" + keyword + "%";
+            return runner.query(sql, new BeanListHandler<>(DiningTable.class), keyword);
+        }
+        return runner.query(sql, new BeanListHandler<>(DiningTable.class));
     }
 
     @Override

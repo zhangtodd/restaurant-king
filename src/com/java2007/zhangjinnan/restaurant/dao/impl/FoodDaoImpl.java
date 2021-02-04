@@ -24,9 +24,13 @@ public class FoodDaoImpl implements FoodDao {
     @Override
     public List<Food> findByName(String foodName) throws SQLException {
         QueryRunner runner = new QueryRunner(JdbcUtil.getDataSource());
-        String sql = "SELECT " + sqlFile + " FROM food WHERE name LIKE ?";
-        foodName = "%" + foodName + "%";
-        return runner.query(sql, new BeanListHandler<>(Food.class), foodName);
+        String sql = "SELECT " + sqlFile + " FROM food ";
+        if (null != foodName && !("".equals(foodName))) {
+            sql = sql + " WHERE name LIKE ?";
+            foodName = "%" + foodName + "%";
+            return runner.query(sql, new BeanListHandler<>(Food.class), foodName);
+        }
+        return runner.query(sql, new BeanListHandler<>(Food.class));
     }
 
     @Override
@@ -34,6 +38,17 @@ public class FoodDaoImpl implements FoodDao {
         QueryRunner runner = new QueryRunner(JdbcUtil.getDataSource());
         String sql = "SELECT " + sqlFile + "FROM food WHERE id = ?";
         return runner.query(sql, new BeanHandler<>(Food.class), id);
+    }
+
+    @Override
+    public List<Food> findByTypeId(Integer typeId) throws SQLException {
+        QueryRunner runner = new QueryRunner(JdbcUtil.getDataSource());
+        String sql = sql = "SELECT " + sqlFile + "FROM food ";
+        if (typeId > 0) {
+            sql = sql + " WHERE food_type_id = ?";
+            return runner.query(sql, new BeanListHandler<>(Food.class), typeId);
+        }
+        return runner.query(sql, new BeanListHandler<>(Food.class));
     }
 
     @Override

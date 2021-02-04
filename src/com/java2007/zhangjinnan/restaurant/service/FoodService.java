@@ -12,6 +12,8 @@ public interface FoodService {
 
     Food findById(Integer id) throws SQLException;
 
+    List<Food> findByTypeId(Integer typeId) throws SQLException;
+
     int save(Food food) throws SQLException;
 
     int update(Food food) throws SQLException;

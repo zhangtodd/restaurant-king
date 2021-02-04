@@ -25,7 +25,6 @@ public class OrderDetailController extends BaseServlet {
     public int saveOrderList(HttpServletRequest request, HttpServletResponse response) {
         Long orderId = System.currentTimeMillis();
 
-
         String orderDetailList = request.getParameter("order-detail-list");
         List<OrderDetail> orderDetails = JSONObject.parseArray(orderDetailList, OrderDetail.class);
 
