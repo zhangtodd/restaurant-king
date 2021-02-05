@@ -34,26 +34,41 @@
                 <h1 class="section-title" style="color: white">餐馆王👑- RESTAURANT KING ®</h1>
                 <h3></h3>
             </div>
-            <div class="navbar-collapse">
+
+            <header class="header-white-color header-horizontal header-over header-view-side">
                 <div class="container">
-                    <div class="navbar-extra">
-                        <ul class="actions-nav">
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    <i class="fas fa-user"></i>&nbsp;&nbsp;登录
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="cart.html">
-                                    <i class="fas fa-shopping-bag"></i> 我的购物车
-                                    <span class="navbar-mobile">&nbsp;&nbsp;Cart</span>
-                                    <span class="cart-quantity"></span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+                    <nav class="navbar">
+
+                        <button class="navbar-toggler" type="button">
+                            <i class="fas fa-bars nav-show"></i>
+                            <i class="fas fa-times nav-hide"></i>
+                        </button>
+
+                        <div class="navbar-collapse">
+                            <div class="container">
+                                <div class="navbar-extra">
+                                    <ul class="actions-nav row">
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#">
+                                                <i class="fas fa-user"></i>&nbsp;&nbsp;登录
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="cart.html">
+                                                <i class="fas fa-shopping-bag"></i> 我的购物车
+                                                <span class="navbar-mobile">&nbsp;&nbsp;Cart</span>
+                                                <span class="cart-quantity"></span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                    </nav>
                 </div>
-            </div>
+            </header>
+
         </nav>
     </div>
 </header>
@@ -265,14 +280,8 @@
         $("#food-list-box > div").remove();
         data.forEach(function (item, index) {
             const price = intToDouble(item.price);
-            // const obj = (item.price).toString()+"."+ (item.id).toString()+"."+ item.name;
-            const obj = {price:item.price, id:item.id,name :item.name};
-            // const obj1 = JSON.stringify(obj);
-            // const obj1 = obj.toString();
-            const obj1 = JSON.stringify(obj);
-            const obj2 = obj1.split("\"").join("");
-            console.log(obj2);
-            // console.log(obj1.split("\"").join(""));
+            //format: id.name.price.num.amount
+            const obj = item.id + "." + item.name + "." + item.price;
             foodListBox.append(
                 `<div class="col-12 col-lg-6 d-flex">
                     <article class="entity-block entity-hover-shadow">
@@ -291,7 +300,7 @@
                                  data-min-width="10" data-preffered-width="50" data-max-width="80"></div>
                         </div>
                         <div class="entity-content">
-                            <h4 class="entity-title"><a class="content-link" id="${item.id}" name="${obj2}">${item.name}</a></h4>
+                            <h4 class="entity-title"><a class="content-link" id="${item.id}" name="${obj}">${item.name}</a></h4>
                             <p class="entity-text">
                                 ${item.description}
                             </p>
@@ -356,29 +365,45 @@
         console.log(id);
         const tdDom = document.getElementById(id);
         const obj = tdDom.getAttribute("name");
-        // console.log(JSON.parse(obj));
-        //去掉对象字符串两边的大括号
-        obj2 = obj.slice(1,-1);
-        //将每一个键值对拆分成一个数组
-        const result = obj2.split(',');
-        const result1 = result.map(item=>{
-            //将键值对通过冒号分割，取出键 值
-          return  item.split(":")
-        });
-        //定义一个新的对象用来存储结果
-        const objectResult = {}
-        result1.forEach(item=>{
-            objectResult[item[0] ]= item[1];
-        });
-        console.log(objectResult);
+        console.log(obj);
+
+        // const objectResult = {}
+        // result1.forEach(item => {
+        //     objectResult[item[0]] = item[1];
+        // });
+        // console.log(objectResult);
         // if(localStorage.getItem("result")){
         //     let result = localStorage.getItem("result");
         //     // result.push(objectResult);
-           localStorage.setItem("result",result);
+        // localStorage.setItem("result", result);
         // }
 
-    }
+        const addFood = strToObj(obj);
+        addFood.num = 1;
+        addFood.amount = addFood.num * addFood.price;
 
+        let cartStr = localStorage.getItem("cart");
+        let cartObj;
+        const foodId = addFood.id;
+        if (cartStr) {
+            //session中存在cart
+            cartObj = strToObjDict(cartStr);
+            if (cartObj[foodId]) {
+                cartObj[foodId].num++;
+                cartObj[foodId].amount += cartObj[foodId].price;
+            } else {
+                cartObj[id] = addFood;
+            }
+        } else {
+            //session中不存在cart
+            cartObj = {};
+            cartObj[foodId] = addFood;
+        }
+        console.log(objDictToStr(cartObj));
+
+        localStorage.setItem("cart", objDictToStr(cartObj));
+
+    }
 
 
 </script>

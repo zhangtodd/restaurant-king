@@ -34,26 +34,40 @@
                 <h1 class="section-title" style="color: white">餐馆王👑- RESTAURANT KING ®</h1>
                 <h3></h3>
             </div>
-            <div class="navbar-collapse">
+
+            <header class="header-white-color header-horizontal header-over header-view-side">
                 <div class="container">
-                    <div class="navbar-extra">
-                        <ul class="actions-nav">
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    <i class="fas fa-user"></i>&nbsp;&nbsp;登录
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="shop.html">
-                                    <i class="fas fa-reply"></i> 首页
-                                    <span class="navbar-mobile">&nbsp;&nbsp;Cart</span>
-                                    <span class="cart-quantity"></span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+                    <nav class="navbar">
+
+                        <button class="navbar-toggler" type="button">
+                            <i class="fas fa-bars nav-show"></i>
+                            <i class="fas fa-times nav-hide"></i>
+                        </button>
+                        <div class="navbar-collapse">
+                            <div class="container">
+                                <div class="navbar-extra">
+                                    <ul class="actions-nav">
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#">
+                                                <i class="fas fa-user"></i>&nbsp;&nbsp;登录
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="shop.html">
+                                                <i class="fas fa-reply"></i> 首页
+                                                <span class="navbar-mobile">&nbsp;&nbsp;Home</span>
+                                                <span class="cart-quantity"></span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </nav>
                 </div>
-            </div>
+            </header>
+
+
         </nav>
     </div>
 </header>
@@ -66,7 +80,7 @@
     <div class="sidebar-container">
         <!--单项-->
         <div class="content">
-            <section class="section">
+            <section class="section" id="cart-list">
                 <div class="entity">
                     <div class="grid col-auto row">
                         <div class="col">
@@ -157,13 +171,15 @@
                                 <ul class="mt-4 entity-list">
                                     <li>
                                         <span class="entity-list-value" style="font-size: 40px">¥ </span>
-                                        <span class="entity-list-value" style="font-size: 40px">3.99</span>
+                                        <span class="entity-list-value" style="font-size: 40px" id="order-total-amount">
+                                            0.0
+                                        </span>
                                     </li>
                                 </ul>
                             </div>
                         </div>
                         <div class="col-auto">
-                            <button class="mb-0 btn btn-theme" type="submit">
+                            <button class="mb-0 btn btn-theme" type="button" id="generate-order-button">
                                 <i class="fas fa-star"></i>
                                 <span>下单</span>
                             </button>
@@ -171,10 +187,7 @@
                     </div>
                 </form>
             </section>
-
-
         </div>
-
     </div>
 </div>
 <div class="scroll-top">
@@ -191,6 +204,83 @@
 <script src="./assets/js/script.js"></script>
 <script async defer="defer"
         src="https://ditu.google.cn/maps/api/js?key=AIzaSyBDBAbNXaCDOzujLCykXUvTylfbL1wUcaM&callback=initMap"></script>
+<script src="../backend/js/my-utils.js"></script>
+
+<script>
+    const reloadCartList = function (cartObj) {
+        const cartList = $("#cart-list");
+        $("#cart-list > div").remove();
+        let all_amount = 0;
+        for (let key in cartObj) {
+            let item = cartObj[key];
+            all_amount += item.amount;
+
+            let price = intToDouble(item.price);
+            let amount = intToDouble(item.amount);
+
+            cartList.append(
+                `<div class="entity">
+                    <div class="grid col-auto row">
+                        <div class="col">
+                            <h2 class="mb-2 entity-title">${item.name}</h2>
+                            <div class="mb-3 entity-price">
+                                <span class="entity-price-current" style="font-size: 30px">¥ ${price}</span>
+                            </div>
+                            <div class="entity-action-btns">
+                                <form autocomplete="off">
+                                    <div class="row grid">
+                                        <div class="col-auto">
+                                            <div class="input-view-flat input-gray-shadow input-spin input-group">
+                                                <input class="form-control" min="1" name="text" type="text" value="1">
+                                                <span class="input-actions">
+                                                    <span class="input-decrement disabled">
+                                                        <i class="fas fa-minus"></i>
+                                                    </span>
+                                                      <span class="input-increment">
+                                                        <i class="fas fa-plus"></i>
+                                                      </span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <button class="btn btn-light" type="button" onclick="deleteFood(${item.id})">删除</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <ul class="mt-4 entity-list">
+                                <li>
+                                    <span class="entity-list-title" style="font-size: 20px">小计:</span>
+                                    <span class="entity-list-value" style="font-size: 20px">¥ ${amount}</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                    </div>`
+            )
+        }
+        return all_amount;
+    };
+
+    $(function () {
+
+        let totalAmount = $("#order-total-amount");
+        let cartStr = localStorage.getItem("cart");
+        let cartObj;
+
+        if (cartStr) {
+            cartObj = strToObjDict(cartStr);
+            let all_amount = reloadCartList(cartObj);
+            totalAmount.text("" + intToDouble(all_amount));
+        } else {
+            totalAmount.text("0.0");
+        }
+    });
+
+
+
+
+</script>
+
 
 </body>
 

@@ -320,16 +320,16 @@
         const typeId = $("#add-food-type option:selected").attr("name");
         const price = $("#add-food-price").val();
         const memberPrice = $("#add-food-member-price").val();
-        const image = $("#add-food-img").val();
+        // const image = $("#add-food-img").val();
         const description = $("#add-food-description").val();
 
-        // $.post("/food",
-        //     {"method": "save", "name": name},
-        //     function (data) {
-        //         alert(data);
-        //         reloadTable(data);
-        //     }, "json"
-        // );
+        $.post("/food",
+            {"method": "save", "name": name,"typeName":typeName},
+            function (data) {
+                alert(data);
+                reloadTable(data);
+            }, "json"
+        );
 
     });
 

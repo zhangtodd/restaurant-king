@@ -36,13 +36,13 @@ function strToObj(str) {
     return {"id": id, "name": name, "price": price, "num": num, "amount": amount};
 }
 
-function strToObjList(listStr) {
+function strToObjDict(listStr) {
     // split by ","
     let arr = listStr.split(",");
     let res = {};
     arr.forEach(function (item, index) {
         let tmp = strToObj(item);
-        res.put(tmp.id, tmp);
+        res[tmp.id] = tmp;
     });
     return res;
 }
@@ -51,17 +51,17 @@ function objToStr(data) {
     return "" + data.id + "." + data.name + "." + data.price + "." + data.num + "." + data.amount;
 }
 
-function objListToStr(data) {
+function objDictToStr(data) {
     //list 里面存的是 引用
     let flag = 0;
     let ans = "";
-    data.forEach(function (item, index) {
+    for (let key in data) {
         if (flag === 1) {
             ans += ",";
         }
-        ans += item.id + ":";
-        ans += objToStr(item);
+        ans += key + ":";
+        ans += objToStr(data[key]);
         flag = 1;
-    });
+    }
     return ans;
 }
