@@ -79,6 +79,66 @@
 </section>
 <div class="container">
     <div class="sidebar-container">
+
+        <!--right sidebar-->
+        <div class="sidebar section order-lg-last">
+            <!--search-->
+            <section class="section-sidebar">
+                <div class="section-head">
+                    <h3 class="section-title h4">
+                        <span>搜索菜品</span></h3>
+                </div>
+                <form autocomplete="off">
+                    <div class="row">
+                        <div class="col">
+                            <div class="input-view-flat input-gray-shadow form-group">
+                                <div class="input-group">
+                                    <input class="form-control" id="search-keyword" name="search" type="text"
+                                           placeholder="今天想吃点什么"
+                                           style="color: #9d9d9d" required="required">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <button class="mb-0 btn btn-theme" type="button" id="search">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </section>
+            <!--select type-->
+            <section class="section-sidebar">
+                <div class="section-head">
+                    <h3 class="section-title h4">
+                        <span>选择菜系</span></h3>
+                </div>
+                <ul class="list-unstyled" id="food-type-list">
+                    <li>
+                        <a class="record-line" href="" onclick="findByType()">
+                            <span class="record-title" style="font-size:20px">全部</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="record-line" href="#">
+                            <span class="record-title" style="font-size:20px">粤菜</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="record-line" href="#">
+                            <span class="record-title" style="font-size:20px">川菜</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="record-line" href="blog-sidebar-right.html">
+                            <span class="record-title" style="font-size:20px">杭帮菜</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </section>
+        </div>
+        <!--food list-->
         <div class="content">
             <section class="section">
                 <div class="grid row" id="food-list-box">
@@ -196,64 +256,6 @@
                 <!--                </div>-->
             </section>
         </div>
-        <!--right sidebar-->
-        <div class="sidebar section order-lg-last">
-            <!--search-->
-            <section class="section-sidebar">
-                <div class="section-head">
-                    <h3 class="section-title h4">
-                        <span>搜索菜品</span></h3>
-                </div>
-                <form autocomplete="off">
-                    <div class="row">
-                        <div class="col">
-                            <div class="input-view-flat input-gray-shadow form-group">
-                                <div class="input-group">
-                                    <input class="form-control" id="search-keyword" name="search" type="text"
-                                           placeholder="今天想吃点什么"
-                                           style="color: #9d9d9d" required="required">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-auto">
-                            <button class="mb-0 btn btn-theme" type="button" id="search">
-                                <i class="fas fa-search"></i>
-                            </button>
-                        </div>
-                    </div>
-                </form>
-            </section>
-            <!--select type-->
-            <section class="section-sidebar">
-                <div class="section-head">
-                    <h3 class="section-title h4">
-                        <span>选择菜系</span></h3>
-                </div>
-                <ul class="list-unstyled" id="food-type-list">
-                    <li>
-                        <a class="record-line" href="" onclick="findByType()">
-                            <span class="record-title" style="font-size:20px">全部</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="record-line" href="#">
-                            <span class="record-title" style="font-size:20px">粤菜</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="record-line" href="#">
-                            <span class="record-title" style="font-size:20px">川菜</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="record-line" href="blog-sidebar-right.html">
-                            <span class="record-title" style="font-size:20px">杭帮菜</span>
-                        </a>
-                    </li>
-
-                </ul>
-            </section>
-        </div>
 
     </div>
 </div>
@@ -309,7 +311,7 @@
                                     <span class="currency">¥</span>${price}
                                 </div>
                                 <div class="entity-action-btns">
-                                    <a class="btn-sm btn btn-theme" href="#" onclick="addCart(${item.id})">加入餐车</a></div>
+                                    <a class="btn-sm btn btn-theme" href="javascript:;" onclick="addCart(${item.id})">加入餐车</a></div>
                             </div>
                         </div>
                     </article>
@@ -331,7 +333,7 @@
         data.forEach(function (item, index) {
             typeList.append(
                 `<li>
-                    <a class="record-line" href="#" onclick="findByType(${item.id})" type="button">
+                    <a class="record-line" onclick="findByType(${item.id})" type="button">
                         <span class="record-title" style="font-size:20px">${item.name}</span>
                     </a>
                 </li>`
@@ -398,6 +400,7 @@
             //session中不存在cart
             cartObj = {};
             cartObj[foodId] = addFood;
+
         }
         console.log(objDictToStr(cartObj));
 

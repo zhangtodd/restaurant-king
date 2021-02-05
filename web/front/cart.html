@@ -179,7 +179,7 @@
                             </div>
                         </div>
                         <div class="col-auto">
-                            <button class="mb-0 btn btn-theme" type="button" id="generate-order-button">
+                            <button class="mb-0 btn btn-theme" type="button" id="generate-order">
                                 <i class="fas fa-star"></i>
                                 <span>下单</span>
                             </button>
@@ -231,7 +231,8 @@
                                     <div class="row grid">
                                         <div class="col-auto">
                                             <div class="input-view-flat input-gray-shadow input-spin input-group">
-                                                <input class="form-control" min="1" name="text" type="text" value="1">
+                                                <input class="form-control" min="1" name="text"
+                                                    type="text"value=${item.num}>
                                                 <span class="input-actions">
                                                     <span class="input-decrement disabled">
                                                         <i class="fas fa-minus"></i>
@@ -272,13 +273,32 @@
             let all_amount = reloadCartList(cartObj);
             totalAmount.text("" + intToDouble(all_amount));
         } else {
+            $("#cart-list > div").remove();
             totalAmount.text("0.0");
         }
     });
 
 
+    const deleteFood = function (id) {
+        let totalAmount = $("#order-total-amount");
+        let cartStr = localStorage.getItem("cart");
+        let cartObj;
 
+        if (cartStr) {
+            cartObj = strToObjDict(cartStr);
+            delete cartObj[id];
+            localStorage.setItem("cart", objDictToStr(cartObj));
+            let all_amount = reloadCartList(cartObj);
+            totalAmount.text("" + intToDouble(all_amount));
+        } else {
+            totalAmount.text("0.0");
+        }
 
+    };
+
+    $("#generate-order").click(function () {
+        alert("跳出模态框 选择桌子 桌子被预定 等待结账");
+    })
 </script>
 
 
