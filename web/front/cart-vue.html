@@ -204,103 +204,110 @@
 <script src="./assets/js/script.js"></script>
 <script src="../backend/js/my-utils.js"></script>
 
+<!--<script>-->
+<!--    const reloadCartList = function (cartObj) {-->
+<!--        const cartList = $("#cart-list");-->
+<!--        $("#cart-list > div").remove();-->
+<!--        let all_amount = 0;-->
+<!--        for (let key in cartObj) {-->
+<!--            let item = cartObj[key];-->
+<!--            all_amount += item.amount;-->
+
+<!--            let price = intToDouble(item.price);-->
+<!--            let amount = intToDouble(item.amount);-->
+
+<!--            cartList.append(-->
+<!--                `<div class="entity">-->
+<!--                    <div class="grid col-auto row">-->
+<!--                        <div class="col">-->
+<!--                            <h2 class="mb-2 entity-title">${item.name}</h2>-->
+<!--                            <div class="mb-3 entity-price">-->
+<!--                                <span class="entity-price-current" style="font-size: 30px">¥ ${price}</span>-->
+<!--                            </div>-->
+<!--                            <div class="entity-action-btns">-->
+<!--                                <form autocomplete="off">-->
+<!--                                    <div class="row grid">-->
+<!--                                        <div class="col-auto">-->
+<!--                                            <div class="input-view-flat input-gray-shadow input-spin input-group">-->
+<!--                                                <input class="form-control" min="1" name="text"-->
+<!--                                                    type="text"value=${item.num}>-->
+<!--                                                <span class="input-actions">-->
+<!--                                                    <span class="input-decrement disabled">-->
+<!--                                                        <i class="fas fa-minus"></i>-->
+<!--                                                    </span>-->
+<!--                                                      <span class="input-increment">-->
+<!--                                                        <i class="fas fa-plus"></i>-->
+<!--                                                      </span>-->
+<!--                                                </span>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                        <div class="col-auto">-->
+<!--                                            <button class="btn btn-light" type="button" onclick="deleteFood(${item.id})">删除</button>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </form>-->
+<!--                            </div>-->
+<!--                            <ul class="mt-4 entity-list">-->
+<!--                                <li>-->
+<!--                                    <span class="entity-list-title" style="font-size: 20px">小计:</span>-->
+<!--                                    <span class="entity-list-value" style="font-size: 20px">¥ ${amount}</span></li>-->
+<!--                            </ul>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    </div>`-->
+<!--            )-->
+<!--        }-->
+<!--        return all_amount;-->
+<!--    };-->
+
+<!--    $(function () {-->
+
+<!--        let totalAmount = $("#order-total-amount");-->
+<!--        let cartStr = localStorage.getItem("cart");-->
+<!--        let cartObj;-->
+
+<!--        if (cartStr) {-->
+<!--            cartObj = strToObjDict(cartStr);-->
+<!--            let all_amount = reloadCartList(cartObj);-->
+<!--            totalAmount.text("" + intToDouble(all_amount));-->
+<!--        } else {-->
+<!--            $("#cart-list > div").remove();-->
+<!--            totalAmount.text("0.0");-->
+<!--        }-->
+<!--    });-->
+
+
+<!--    const deleteFood = function (id) {-->
+<!--        let totalAmount = $("#order-total-amount");-->
+<!--        let cartStr = localStorage.getItem("cart");-->
+<!--        let cartObj;-->
+
+<!--        if (cartStr) {-->
+<!--            cartObj = strToObjDict(cartStr);-->
+<!--            delete cartObj[id];-->
+<!--            localStorage.setItem("cart", objDictToStr(cartObj));-->
+<!--            let all_amount = reloadCartList(cartObj);-->
+<!--            totalAmount.text("" + intToDouble(all_amount));-->
+<!--        } else {-->
+<!--            totalAmount.text("0.0");-->
+<!--        }-->
+
+<!--    };-->
+
+<!--    $("#generate-order").click(function () {-->
+<!--        alert("跳出模态框 选择桌子 桌子被预定 等待结账");-->
+
+<!--    })-->
+<!--</script>-->
+
+
+<!-- vue -->
+<!-- 开发环境版本，包含了有帮助的命令行警告 -->
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<!-- 官网提供的 axios 在线地址 -->
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
 <script>
-    const reloadCartList = function (cartObj) {
-        const cartList = $("#cart-list");
-        $("#cart-list > div").remove();
-        let all_amount = 0;
-        for (let key in cartObj) {
-            let item = cartObj[key];
-            all_amount += item.amount;
-
-            let price = intToDouble(item.price);
-            let amount = intToDouble(item.amount);
-
-            cartList.append(
-                `<div class="entity">
-                    <div class="grid col-auto row">
-                        <div class="col">
-                            <h2 class="mb-2 entity-title">${item.name}</h2>
-                            <div class="mb-3 entity-price">
-                                <span class="entity-price-current" style="font-size: 30px">¥ ${price}</span>
-                            </div>
-                            <div class="entity-action-btns">
-                                <form autocomplete="off">
-                                    <div class="row grid">
-                                        <div class="col-auto">
-                                            <div class="input-view-flat input-gray-shadow input-spin input-group">
-                                                <input class="form-control" min="1" name="text"
-                                                    type="text"value=${item.num}>
-                                                <span class="input-actions">
-                                                    <span class="input-decrement disabled">
-                                                        <i class="fas fa-minus"></i>
-                                                    </span>
-                                                      <span class="input-increment">
-                                                        <i class="fas fa-plus"></i>
-                                                      </span>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <button class="btn btn-light" type="button" onclick="deleteFood(${item.id})">删除</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                            <ul class="mt-4 entity-list">
-                                <li>
-                                    <span class="entity-list-title" style="font-size: 20px">小计:</span>
-                                    <span class="entity-list-value" style="font-size: 20px">¥ ${amount}</span></li>
-                            </ul>
-                        </div>
-                    </div>
-                    </div>`
-            )
-        }
-        return all_amount;
-    };
-
-    $(function () {
-
-        let totalAmount = $("#order-total-amount");
-        let cartStr = localStorage.getItem("cart");
-        let cartObj;
-
-        if (cartStr) {
-            cartObj = strToObjDict(cartStr);
-            let all_amount = reloadCartList(cartObj);
-            totalAmount.text("" + intToDouble(all_amount));
-        } else {
-            $("#cart-list > div").remove();
-            totalAmount.text("0.0");
-        }
-    });
-
-
-    const deleteFood = function (id) {
-        let totalAmount = $("#order-total-amount");
-        let cartStr = localStorage.getItem("cart");
-        let cartObj;
-
-        if (cartStr) {
-            cartObj = strToObjDict(cartStr);
-            delete cartObj[id];
-            localStorage.setItem("cart", objDictToStr(cartObj));
-            let all_amount = reloadCartList(cartObj);
-            totalAmount.text("" + intToDouble(all_amount));
-        } else {
-            totalAmount.text("0.0");
-        }
-
-    };
-
-    // $("#generate-order").click(function () {
-    //     alert("跳出模态框 选择桌子 桌子被预定 等待结账");
-    //
-    // })
-
-
-
 
 </script>
 

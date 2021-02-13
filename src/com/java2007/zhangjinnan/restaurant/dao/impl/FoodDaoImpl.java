@@ -44,6 +44,7 @@ public class FoodDaoImpl implements FoodDao {
     public List<Food> findByTypeId(Integer typeId) throws SQLException {
         QueryRunner runner = new QueryRunner(JdbcUtil.getDataSource());
         String sql = sql = "SELECT " + sqlFile + "FROM food ";
+        //传入参数不同 使用if
         if (typeId > 0) {
             sql = sql + " WHERE food_type_id = ?";
             return runner.query(sql, new BeanListHandler<>(Food.class), typeId);

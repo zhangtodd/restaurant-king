@@ -23,14 +23,13 @@ public class FoodController extends BaseServlet {
 
     public List<Food> search(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String keyword = request.getParameter("keyword");
-        List<Food> foods = foodService.findByName(keyword);
-        return foods;
+        return foodService.findByName(keyword);
     }
 
     public List<Food> findByTypeId(HttpServletRequest request, HttpServletResponse response) throws Exception {
         Integer typeId = Integer.valueOf(request.getParameter("typeId"));
-        List<Food> foods = foodService.findByTypeId(typeId);
-        return foods;
+        //typeId == 0 select all
+        return foodService.findByTypeId(typeId);
     }
 
     public int delete(HttpServletRequest request, HttpServletResponse response) throws Exception {
