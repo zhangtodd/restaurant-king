@@ -16,4 +16,6 @@ public interface DaoConstant {
     String ORDER =
             "com.java2007.zhangjinnan.restaurant.dao.impl.OrderDaoImpl";
 
+    String MEMBER =
+            "com.java2007.zhangjinnan.restaurant.dao.impl.MemberDaoImpl";
 }

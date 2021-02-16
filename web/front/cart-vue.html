@@ -53,7 +53,7 @@
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="shop.html">
+                                            <a class="nav-link" href="shop-vue.html">
                                                 <i class="fas fa-reply"></i> 首页
                                                 <span class="navbar-mobile">&nbsp;&nbsp;Home</span>
                                                 <span class="cart-quantity"></span>
@@ -66,8 +66,6 @@
                     </nav>
                 </div>
             </header>
-
-
         </nav>
     </div>
 </header>
@@ -76,36 +74,41 @@
     <div class="content-offs-stick my-5 container">
     </div>
 </section>
-<div class="container">
+<div class="container" id="app">
     <div class="sidebar-container">
-        <!--单项-->
         <div class="content">
             <section class="section" id="cart-list">
-                <div class="entity">
+                <!-- 菜品 -->
+                <div class="entity" v-for="(item,key) in foodDict" :key="key">
                     <div class="grid col-auto row">
                         <div class="col">
-                            <h2 class="mb-2 entity-title">酸菜鱼</h2>
+                            <h2 class="mb-2 entity-title">{{ item.name }}</h2>
                             <div class="mb-3 entity-price">
-                                <span class="entity-price-current" style="font-size: 30px">¥3.99</span>
+                                <span class="entity-price-current" style="font-size: 30px">
+                                    ¥ {{ item.price/100 }}.{{ item.price%100 }}
+                                </span>
                             </div>
                             <div class="entity-action-btns">
                                 <form autocomplete="off">
                                     <div class="row grid">
                                         <div class="col-auto">
                                             <div class="input-view-flat input-gray-shadow input-spin input-group">
-                                                <input class="form-control" min="1" name="text" type="text" value="1">
+                                                <input class="form-control" min="1" name="text"
+                                                       type="text" :value="item.num">
                                                 <span class="input-actions">
-                                                    <span class="input-decrement disabled">
-                                                        <i class="fas fa-minus"></i>
+                                                    <span class="input-decrement">
+                                                        <i class="fas fa-minus" @click="reduceItem(item)"></i>
                                                     </span>
                                                       <span class="input-increment">
-                                                        <i class="fas fa-plus"></i>
+                                                        <i class="fas fa-plus" @click="addItem(item)"></i>
                                                       </span>
                                                 </span>
                                             </div>
                                         </div>
                                         <div class="col-auto">
-                                            <button class="btn btn-light" type="submit">删除</button>
+                                            <button class="btn btn-light" type="button" @click="removeItem(item.id)">
+                                                删除
+                                            </button>
                                         </div>
                                     </div>
                                 </form>
@@ -113,44 +116,10 @@
                             <ul class="mt-4 entity-list">
                                 <li>
                                     <span class="entity-list-title" style="font-size: 20px">小计:</span>
-                                    <span class="entity-list-value" style="font-size: 20px">¥ 3.99</span></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="entity">
-                    <div class="grid col-auto row">
-                        <div class="col">
-                            <h2 class="mb-2 entity-title">酸菜鱼</h2>
-                            <div class="mb-3 entity-price">
-                                <span class="entity-price-current" style="font-size: 30px">¥3.99</span>
-                            </div>
-                            <div class="entity-action-btns">
-                                <form autocomplete="off">
-                                    <div class="row grid">
-                                        <div class="col-auto">
-                                            <div class="input-view-flat input-gray-shadow input-spin input-group">
-                                                <input class="form-control" min="1" name="text" type="text" value="1">
-                                                <span class="input-actions">
-                                                    <span class="input-decrement disabled">
-                                                        <i class="fas fa-minus"></i>
-                                                    </span>
-                                                      <span class="input-increment">
-                                                        <i class="fas fa-plus"></i>
-                                                      </span>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <button class="btn btn-light" type="submit">删除</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                            <ul class="mt-4 entity-list">
-                                <li>
-                                    <span class="entity-list-title" style="font-size: 20px">小计:</span>
-                                    <span class="entity-list-value" style="font-size: 20px">¥ 3.99</span></li>
+                                    <span class="entity-list-value" style="font-size: 20px">
+                                        ¥ {{ item.amount/100 }}.{{ item.amount%100 }}
+                                    </span>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -172,7 +141,7 @@
                                     <li>
                                         <span class="entity-list-value" style="font-size: 40px">¥ </span>
                                         <span class="entity-list-value" style="font-size: 40px" id="order-total-amount">
-                                            0.0
+                                            {{ totalAmount/100 }}.{{ totalAmount%100 }}
                                         </span>
                                     </li>
                                 </ul>
@@ -204,103 +173,6 @@
 <script src="./assets/js/script.js"></script>
 <script src="../backend/js/my-utils.js"></script>
 
-<!--<script>-->
-<!--    const reloadCartList = function (cartObj) {-->
-<!--        const cartList = $("#cart-list");-->
-<!--        $("#cart-list > div").remove();-->
-<!--        let all_amount = 0;-->
-<!--        for (let key in cartObj) {-->
-<!--            let item = cartObj[key];-->
-<!--            all_amount += item.amount;-->
-
-<!--            let price = intToDouble(item.price);-->
-<!--            let amount = intToDouble(item.amount);-->
-
-<!--            cartList.append(-->
-<!--                `<div class="entity">-->
-<!--                    <div class="grid col-auto row">-->
-<!--                        <div class="col">-->
-<!--                            <h2 class="mb-2 entity-title">${item.name}</h2>-->
-<!--                            <div class="mb-3 entity-price">-->
-<!--                                <span class="entity-price-current" style="font-size: 30px">¥ ${price}</span>-->
-<!--                            </div>-->
-<!--                            <div class="entity-action-btns">-->
-<!--                                <form autocomplete="off">-->
-<!--                                    <div class="row grid">-->
-<!--                                        <div class="col-auto">-->
-<!--                                            <div class="input-view-flat input-gray-shadow input-spin input-group">-->
-<!--                                                <input class="form-control" min="1" name="text"-->
-<!--                                                    type="text"value=${item.num}>-->
-<!--                                                <span class="input-actions">-->
-<!--                                                    <span class="input-decrement disabled">-->
-<!--                                                        <i class="fas fa-minus"></i>-->
-<!--                                                    </span>-->
-<!--                                                      <span class="input-increment">-->
-<!--                                                        <i class="fas fa-plus"></i>-->
-<!--                                                      </span>-->
-<!--                                                </span>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                        <div class="col-auto">-->
-<!--                                            <button class="btn btn-light" type="button" onclick="deleteFood(${item.id})">删除</button>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </form>-->
-<!--                            </div>-->
-<!--                            <ul class="mt-4 entity-list">-->
-<!--                                <li>-->
-<!--                                    <span class="entity-list-title" style="font-size: 20px">小计:</span>-->
-<!--                                    <span class="entity-list-value" style="font-size: 20px">¥ ${amount}</span></li>-->
-<!--                            </ul>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    </div>`-->
-<!--            )-->
-<!--        }-->
-<!--        return all_amount;-->
-<!--    };-->
-
-<!--    $(function () {-->
-
-<!--        let totalAmount = $("#order-total-amount");-->
-<!--        let cartStr = localStorage.getItem("cart");-->
-<!--        let cartObj;-->
-
-<!--        if (cartStr) {-->
-<!--            cartObj = strToObjDict(cartStr);-->
-<!--            let all_amount = reloadCartList(cartObj);-->
-<!--            totalAmount.text("" + intToDouble(all_amount));-->
-<!--        } else {-->
-<!--            $("#cart-list > div").remove();-->
-<!--            totalAmount.text("0.0");-->
-<!--        }-->
-<!--    });-->
-
-
-<!--    const deleteFood = function (id) {-->
-<!--        let totalAmount = $("#order-total-amount");-->
-<!--        let cartStr = localStorage.getItem("cart");-->
-<!--        let cartObj;-->
-
-<!--        if (cartStr) {-->
-<!--            cartObj = strToObjDict(cartStr);-->
-<!--            delete cartObj[id];-->
-<!--            localStorage.setItem("cart", objDictToStr(cartObj));-->
-<!--            let all_amount = reloadCartList(cartObj);-->
-<!--            totalAmount.text("" + intToDouble(all_amount));-->
-<!--        } else {-->
-<!--            totalAmount.text("0.0");-->
-<!--        }-->
-
-<!--    };-->
-
-<!--    $("#generate-order").click(function () {-->
-<!--        alert("跳出模态框 选择桌子 桌子被预定 等待结账");-->
-
-<!--    })-->
-<!--</script>-->
-
-
 <!-- vue -->
 <!-- 开发环境版本，包含了有帮助的命令行警告 -->
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
@@ -308,6 +180,57 @@
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
 <script>
+
+    let app = new Vue({
+        el: "#app",
+        data: {
+            foodDict: {},
+            totalAmount: 0
+        },
+        methods: {
+            getCart() {
+                let cart = localStorage.getItem("cart");
+                if (cart !== null) {
+                    cart = JSON.parse(cart);
+                    this.foodDict = cart.data;
+                    this.totalAmount = cart.totalAmount;
+                }
+            },
+            reduceItem(item) {
+                if (item.num === 1) {
+                    alert("件数最少为1");
+                    return 0;
+                }
+                let id = item.id;
+                this.foodDict[id].num--;
+                this.foodDict[id].amount -= item.price;
+                this.totalAmount -= item.price;
+                this.setCart();
+            },
+            addItem(item) {
+                let id = item.id;
+                this.foodDict[id].num++;
+                this.foodDict[id].amount += item.price;
+                this.totalAmount += item.price;
+                this.setCart();
+            },
+            removeItem(id) {
+                this.totalAmount -= this.foodDict[id].amount;
+                delete (this.foodDict[id]);
+                this.setCart();
+            },
+            setCart() {
+                localStorage.removeItem("cart");
+                let cart = {};
+                cart.data = this.foodDict;
+                cart.totalAmount = this.totalAmount;
+                localStorage.setItem("cart", JSON.stringify(cart));
+            }
+        },
+        created() {
+            this.getCart();
+        }
+    })
 
 </script>
 

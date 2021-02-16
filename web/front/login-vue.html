@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+    <title>餐馆王 - 登录</title>
+    <link href="./assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="./assets/animate.css/animate.min.css" rel="stylesheet" type="text/css">
+    <link href="./assets/fontawesome/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="./assets/slick/slick.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap" rel="stylesheet"
+          type="text/css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet"
+          type="text/css">
+    <link href="./assets/css/theme.min.css" rel="stylesheet" type="text/css">
+</head>
+
+<body class="body">
+<div class="page-loader cube-loader">
+    <div class="loader-wrap">
+        <div class="loader-1 loader-element"></div>
+        <div class="loader-2 loader-element"></div>
+        <div class="loader-4 loader-element"></div>
+        <div class="loader-3 loader-element"></div>
+    </div>
+</div>
+<header class="header-colorfull header-horizontal header-over header-view-side">
+    <div class="container">
+        <!-- navbar -->
+        <nav class="navbar">
+            <div class="z-index-4 position-relative text-center">
+                <h1 class="section-title" style="color: white">
+                    餐馆王👑- RESTAURANT KING ®&nbsp;&nbsp;&nbsp;&nbsp;用户登录
+                </h1>
+            </div>
+        </nav>
+    </div>
+</header>
+<section class="after-head top-block-page with-back white-curve-after section-white-text">
+    <div class="overflow-back bg-theme"></div>
+    <div class="content-offs-stick my-5 container">
+    </div>
+</section>
+<section class="section">
+    <div class="container" id="app">
+        <form autocomplete="off">
+            <div class="col grid justify-content-center">
+                <div class="col-12 col-sm-6 col-lg-5 col-xl-4">
+                    <div class="input-view-flat input-gray-shadow form-group">
+                        <label class="required">用户名</label>
+                        <div class="input-group">
+                            <input class="form-control" type="text" placeholder="Username"
+                                   v-model="username" @keyup.enter="login">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-5 col-xl-4">
+                    <div class="input-view-flat input-gray-shadow form-group">
+                        <label class="required">密码</label>
+                        <div class="input-group">
+                            <input class="form-control" type="password" placeholder="Password"
+                                   v-model="password" @keyup.enter="login">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <button class="btn-wide mb-0 btn btn-theme" type="button" @click="login">登录</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+<script src="./assets/jquery/jquery-3.3.1.min.js"></script>
+<script src="./assets/bootstrap/js/bootstrap.min.js"></script>
+<script src="./assets/shuffle/shuffle.min.js"></script>
+<script src="./assets/waypoints/jquery.waypoints.min.js"></script>
+<script src="./assets/slick/slick.min.js"></script>
+<script src="./assets/js-cookie/js.cookie.js" type="text/javascript"></script>
+<script src="./assets/js/gmap/silver.js"></script>
+<script src="./assets/js/script.js"></script>
+<script src="../backend/js/my-utils.js"></script>
+
+<!-- vue -->
+<!-- 开发环境版本，包含了有帮助的命令行警告 -->
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<!-- 官网提供的 axios 在线地址 -->
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+<script>
+
+    let app = new Vue({
+        el: "#app",
+        data: {
+            username: "",
+            password: ""
+        },
+        methods: {
+            login() {
+                let username = this.username;
+                let password = this.password;
+                if (username === "" || username === null || password === "" || password === null) {
+                    alert("用户名或密码不能为空");
+                    return 0;
+                }
+                axios.get(`/login?method=login&name=${username}&password=${password}&role=member`).then(res => {
+                    let member_id = res.data;
+                    if (member_id === -1) {
+                        alert("账号或密码错误，请重试");
+                    } else {
+                        localStorage.setItem("login_info", JSON.stringify({"id": member_id, "name": username}));
+                        alert("登陆成功");
+                        window.location.href="/front/shop-vue.html";
+                    }
+                }).catch(err => {
+                    console.log(err);
+                });
+            }
+        }
+    })
+
+</script>
+
+
+</body>
+
+</html>

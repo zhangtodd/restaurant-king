@@ -15,4 +15,8 @@ public interface ServiceConstant {
 
     String ORDER_DETAIL =
             "com.java2007.zhangjinnan.restaurant.service.impl.OrderDetailServiceImpl";
+
+    String MEMBER =
+            "com.java2007.zhangjinnan.restaurant.service.impl.MemberServiceImpl";
+
 }
