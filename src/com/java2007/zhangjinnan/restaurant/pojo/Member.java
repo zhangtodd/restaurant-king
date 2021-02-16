@@ -16,20 +16,22 @@ public class Member {
     //one member has only one role but different level
     private String role;
     private Integer level;
+    private Integer orderStatus;
 
     public Member() {
     }
 
-    public Member(String name, String password, String email, String phone, String role, Integer level) {
+    public Member(String name, String password, String email, String phone, String role, Integer level, Integer orderStatus) {
         this.name = name;
         this.password = password;
         this.email = email;
         this.phone = phone;
         this.role = role;
         this.level = level;
+        this.orderStatus = orderStatus;
     }
 
-    public Member(Integer id, Date createTime, Date updateTime, String name, String password, String email, String phone, String role, Integer level) {
+    public Member(Integer id, Date createTime, Date updateTime, String name, String password, String email, String phone, String role, Integer level, Integer orderStatus) {
         this.id = id;
         this.createTime = createTime;
         this.updateTime = updateTime;
@@ -39,6 +41,7 @@ public class Member {
         this.phone = phone;
         this.role = role;
         this.level = level;
+        this.orderStatus = orderStatus;
     }
 
     public Integer getId() {
@@ -113,6 +116,14 @@ public class Member {
         this.level = level;
     }
 
+    public Integer getOrderStatus() {
+        return orderStatus;
+    }
+
+    public void setOrderStatus(Integer orderStatus) {
+        this.orderStatus = orderStatus;
+    }
+
     @Override
     public String toString() {
         return "Member{" +
@@ -125,6 +136,7 @@ public class Member {
                 ", phone='" + phone + '\'' +
                 ", role='" + role + '\'' +
                 ", level=" + level +
+                ", orderStatus=" + orderStatus +
                 '}';
     }
 }

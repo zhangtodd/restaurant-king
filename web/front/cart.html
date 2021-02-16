@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+    <title>餐馆王 - 购物车</title>
+    <link href="./assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="./assets/animate.css/animate.min.css" rel="stylesheet" type="text/css">
+    <link href="./assets/fontawesome/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="./assets/slick/slick.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap" rel="stylesheet"
+          type="text/css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet"
+          type="text/css">
+    <link href="./assets/css/theme.min.css" rel="stylesheet" type="text/css">
+</head>
+
+<body class="body">
+<div id="app">
+    <div class="page-loader cube-loader">
+        <div class="loader-wrap">
+            <div class="loader-1 loader-element"></div>
+            <div class="loader-2 loader-element"></div>
+            <div class="loader-4 loader-element"></div>
+            <div class="loader-3 loader-element"></div>
+        </div>
+    </div>
+    <header class="header-colorfull header-horizontal header-over header-view-side">
+        <div class="container">
+            <!-- navbar -->
+            <nav class="navbar">
+                <div class="z-index-4 position-relative text-center">
+                    <h1 class="section-title" style="color: white">餐馆王👑- RESTAURANT KING ®</h1>
+                    <h3></h3>
+                </div>
+
+                <header class="header-white-color header-horizontal header-over header-view-side">
+                    <div class="container">
+                        <nav class="navbar">
+
+                            <button class="navbar-toggler" type="button">
+                                <i class="fas fa-bars nav-show"></i>
+                                <i class="fas fa-times nav-hide"></i>
+                            </button>
+                            <div class="navbar-collapse">
+                                <div class="container">
+                                    <div class="navbar-extra">
+                                        <ul class="actions-nav">
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="javascript:;">
+                                                    <i class="fas">欢迎您 {{ username }}</i>
+                                                    <span class="navbar-mobile">欢迎您 {{ username }} </span>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="shop.html">
+                                                    <i class="fas fa-reply"></i> 首页
+                                                    <span class="navbar-mobile">&nbsp;&nbsp;Home</span>
+                                                    <span class="cart-quantity"></span>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" @click="logout" href="javascript:;">
+                                                    <i class="fas fa-rocket"></i> 退出
+                                                    <span class="navbar-mobile">&nbsp;&nbsp;Exit</span>
+                                                    <span class="cart-quantity"></span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </nav>
+                    </div>
+                </header>
+            </nav>
+        </div>
+    </header>
+    <section class="after-head top-block-page with-back white-curve-after section-white-text">
+        <div class="overflow-back bg-theme"></div>
+        <div class="content-offs-stick my-5 container">
+        </div>
+    </section>
+    <div class="container">
+        <div class="sidebar-container">
+            <div class="content">
+                <section class="section" id="cart-list">
+                    <!-- 菜品 -->
+                    <div class="entity" v-for="(item,key) in foodDict" :key="key">
+                        <div class="grid col-auto row">
+                            <div class="col">
+                                <h2 class="mb-2 entity-title">{{ item.name }}</h2>
+                                <div class="mb-3 entity-price">
+                                <span class="entity-price-current" style="font-size: 30px">
+                                    ¥ {{ item.price/100 }}.{{ item.price%100 }}
+                                </span>
+                                </div>
+                                <div class="entity-action-btns">
+                                    <form autocomplete="off">
+                                        <div class="row grid">
+                                            <div class="col-auto">
+                                                <div class="input-view-flat input-gray-shadow input-spin input-group">
+                                                    <input class="form-control" min="1" name="text"
+                                                           type="text" :value="item.num">
+                                                    <span class="input-actions">
+                                                    <span class="input-decrement">
+                                                        <i class="fas fa-minus" @click="reduceItem(item)"></i>
+                                                    </span>
+                                                      <span class="input-increment">
+                                                        <i class="fas fa-plus" @click="addItem(item)"></i>
+                                                      </span>
+                                                </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <button class="btn btn-light" type="button"
+                                                        @click="removeItem(item.id)">
+                                                    删除
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <ul class="mt-4 entity-list">
+                                    <li>
+                                        <span class="entity-list-title" style="font-size: 20px">小计:</span>
+                                        <span class="entity-list-value" style="font-size: 20px">
+                                        ¥ {{ item.amount/100 }}.{{ item.amount%100 }}
+                                    </span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <!--合计-->
+            <div class="sidebar section order-lg-last">
+                <section class="section-sidebar">
+                    <div class="section-head">
+                        <h3 class="section-title h2">
+                            <span>合计</span></h3>
+                    </div>
+                    <form autocomplete="off">
+                        <div class="entity">
+                            <div class="col">
+                                <div class="input-view-flat input-gray-shadow form-group">
+                                    <ul class="mt-4 entity-list">
+                                        <li>
+                                            <span class="entity-list-value" style="font-size: 40px">¥ </span>
+                                            <span class="entity-list-value" style="font-size: 40px"
+                                                  id="order-total-amount">
+                                            {{ totalAmount/100 }}.{{ totalAmount%100 }}
+                                        </span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <button class="mb-0 btn btn-theme" type="button" id="generate-order">
+                                    <i class="fas fa-star"></i>
+                                    <span>下单</span>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </section>
+            </div>
+        </div>
+    </div>
+    <div class="scroll-top">
+        <i class="fas fa-long-arrow-alt-up"></i>
+    </div>
+</div>
+<script src="./assets/jquery/jquery-3.3.1.min.js"></script>
+<script src="./assets/bootstrap/js/bootstrap.min.js"></script>
+<script src="./assets/shuffle/shuffle.min.js"></script>
+<script src="./assets/waypoints/jquery.waypoints.min.js"></script>
+<script src="./assets/slick/slick.min.js"></script>
+<script src="./assets/js-cookie/js.cookie.js" type="text/javascript"></script>
+<script src="./assets/js/gmap/silver.js"></script>
+<script src="./assets/js/script.js"></script>
+<script src="../backend/js/my-utils.js"></script>
+
+<!-- vue -->
+<!-- 开发环境版本，包含了有帮助的命令行警告 -->
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<!-- 官网提供的 axios 在线地址 -->
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+<script>
+
+    let app = new Vue({
+        el: "#app",
+        data: {
+            foodDict: {},
+            totalAmount: 0,
+            username: "",
+            userId: -1
+        },
+        methods: {
+            getCart() {
+                let cart = localStorage.getItem("cart");
+                if (cart !== null) {
+                    cart = JSON.parse(cart);
+                    this.foodDict = cart.data;
+                    this.totalAmount = cart.totalAmount;
+                }
+            },
+            reduceItem(item) {
+                if (item.num === 1) {
+                    alert("件数最少为1");
+                    return 0;
+                }
+                let id = item.id;
+                this.foodDict[id].num--;
+                this.foodDict[id].amount -= item.price;
+                this.totalAmount -= item.price;
+                this.setCart();
+            },
+            addItem(item) {
+                let id = item.id;
+                this.foodDict[id].num++;
+                this.foodDict[id].amount += item.price;
+                this.totalAmount += item.price;
+                this.setCart();
+            },
+            removeItem(id) {
+                this.totalAmount -= this.foodDict[id].amount;
+                delete (this.foodDict[id]);
+                this.setCart();
+            },
+            setCart() {
+                localStorage.removeItem("cart");
+                let cart = {};
+                cart.data = this.foodDict;
+                cart.totalAmount = this.totalAmount;
+                localStorage.setItem("cart", JSON.stringify(cart));
+            },
+            getLoginInfo() {
+                let loginInfo = localStorage.getItem("login_info");
+                if (loginInfo === null) {
+                    window.location.href = "/front/login.html";
+                } else {
+                    loginInfo = JSON.parse(loginInfo);
+                    this.username = loginInfo.name;
+                    this.userId = loginInfo.id;
+                }
+            },
+            logout() {
+                localStorage.removeItem("login_info");
+                localStorage.removeItem("cart");
+                window.location.href = "/front/login.html";
+            }
+        },
+        created() {
+            this.getLoginInfo();
+            this.getCart();
+        }
+    })
+
+</script>
+
+
+</body>
+
+</html>
