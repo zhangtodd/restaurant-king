@@ -12,7 +12,7 @@ public interface OrderService {
 
     int save(Order order) throws SQLException;
 
-    int updateOrderStatus(Long orderId) throws SQLException;
+    int updateOrderStatus(Long orderId, Integer isPay) throws SQLException;
 
     List<Order> findAll() throws SQLException;
 

@@ -24,26 +24,31 @@ public class OrderController extends BaseServlet {
 
     public List<Order> pay(HttpServletRequest request, HttpServletResponse response) throws SQLException {
         Long orderId = Long.valueOf(request.getParameter("order_id"));
-        orderService.updateOrderStatus(orderId);
+        Integer payStatus = Integer.valueOf(request.getParameter("pay_status"));
+        orderService.updateOrderStatus(orderId, payStatus);
         return orderService.findAll();
     }
 
-    public Long saveOrder(HttpServletRequest request, HttpServletResponse response) throws SQLException {
+    public Long saveOrder(HttpServletRequest request, HttpServletResponse response) {
         long orderId = System.currentTimeMillis();
 
         Order order = new Order();
         order.setId(orderId);
-        order.setDiningTableId(Integer.valueOf(request.getParameter("dining-table-id")));
-        order.setDiningTableName(request.getParameter("dining-table-name"));
-        order.setMemberId(Integer.valueOf(request.getParameter("member-id")));
-        order.setMemberName(request.getParameter("member-name"));
-        order.setTotalAmount(Integer.valueOf(request.getParameter("total-amount")));
+        order.setDiningTableId(Integer.valueOf(request.getParameter("tableId")));
+        order.setDiningTableName(request.getParameter("tableName"));
+        order.setMemberId(Integer.valueOf(request.getParameter("memberId")));
+        order.setMemberName(request.getParameter("memberName"));
+        order.setTotalAmount(Integer.valueOf(request.getParameter("totalAmount")));
 
-        String orderListStr = request.getParameter("order-list");
+        String orderListStr = request.getParameter("cart");
         List<OrderDetail> orderDetailList = JSON.parseArray(orderListStr, OrderDetail.class);
 
-        orderService.saveOrderAndDetail(order, orderDetailList);
-
+        try {
+            orderService.saveOrderAndDetail(order, orderDetailList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0L;
+        }
         return orderId;
     }
 

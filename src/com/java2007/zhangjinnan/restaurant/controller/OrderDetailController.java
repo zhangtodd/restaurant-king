@@ -28,7 +28,6 @@ public class OrderDetailController extends BaseServlet {
         String orderDetailList = request.getParameter("order-detail-list");
         List<OrderDetail> orderDetails = JSONObject.parseArray(orderDetailList, OrderDetail.class);
 
-
         return 0;
     }
 }

@@ -1,5 +1,6 @@
 package com.java2007.zhangjinnan.restaurant.dao.impl;
 
+import com.alibaba.druid.util.StringUtils;
 import com.java2007.zhangjinnan.restaurant.dao.FoodTypeDao;
 import com.java2007.zhangjinnan.restaurant.pojo.FoodType;
 import com.java2007.zhangjinnan.restaurant.utils.JdbcUtil;
@@ -22,7 +23,7 @@ public class FoodTypeDaoImpl implements FoodTypeDao {
     public List<FoodType> findByTypeName(String typeName) throws SQLException {
         QueryRunner runner = new QueryRunner(JdbcUtil.getDataSource());
         String sql = "SELECT id, name FROM food_type ";
-        if (!"".equals(typeName)) {
+        if (!StringUtils.isEmpty(typeName)) {
             sql = sql + " WHERE name LIKE ?";
             typeName = "%" + typeName + "%";
             return runner.query(sql, new BeanListHandler<>(FoodType.class), typeName);

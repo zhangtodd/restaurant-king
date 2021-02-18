@@ -13,17 +13,17 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public int save(Order order) throws SQLException {
         QueryRunner runner = new QueryRunner(JdbcUtil.getDataSource());
-        String sql = "INSERT INTO order_list (create_time,update_time,dining_table_id,dining_table_name,member_id " +
-                ",member_name, total_amount,is_pay) VALUES (NOW(),NOW(),?,?,?,?,?,0)";
-        return runner.update(JdbcUtil.getConnection(), sql, order.getDiningTableId(), order.getDiningTableName(),
-                order.getMemberId(), order.getDiningTableName(), order.getTotalAmount());
+        String sql = "INSERT INTO order_list (create_time,update_time,id,dining_table_id,dining_table_name,member_id " +
+                ",member_name, total_amount,is_pay) VALUES (NOW(),NOW(),?,?,?,?,?,?,0)";
+        return runner.update(JdbcUtil.getConnection(), sql, order.getId(), order.getDiningTableId(),
+                order.getDiningTableName(), order.getMemberId(), order.getDiningTableName(), order.getTotalAmount());
     }
 
     @Override
-    public int updateOrderStatus(Long orderId) throws SQLException {
+    public int updateOrderStatus(Long orderId, Integer isPay) throws SQLException {
         QueryRunner runner = new QueryRunner();
-        String sql = "UPDATE order_list SET is_pay = 1,update_time = NOW() WHERE id = ?";
-        return runner.update(JdbcUtil.getConnection(), sql, orderId);
+        String sql = "UPDATE order_list SET is_pay = ?,update_time = NOW() WHERE id = ?";
+        return runner.update(JdbcUtil.getConnection(), sql, isPay, orderId);
     }
 
     @Override

@@ -22,7 +22,7 @@ public class DiningTableDaoImpl implements DiningTableDao {
         QueryRunner runner = new QueryRunner(JdbcUtil.getDataSource());
         String sql = "SELECT id , name , is_booking isBooking , booking_time bookingTime FROM dining_table ";
         if (null != keyword && (!"".equals(keyword))) {
-            sql=sql+" WHERE name LIKE ?";
+            sql = sql + " WHERE name LIKE ?";
             keyword = "%" + keyword + "%";
             return runner.query(sql, new BeanListHandler<>(DiningTable.class), keyword);
         }
@@ -39,7 +39,7 @@ public class DiningTableDaoImpl implements DiningTableDao {
     @Override
     public int update(DiningTable diningTable, Integer bookStatus) throws SQLException {
         QueryRunner runner = new QueryRunner();
-        if (bookStatus.equals(0)) {
+        if (!bookStatus.equals(1)) {
             String sql = "UPDATE dining_table SET is_booking = 0 , booking_time= null , update_time = NOW() WHERE id = ?";
             return runner.update(JdbcUtil.getConnection(), sql, diningTable.getId());
         } else {

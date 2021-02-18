@@ -23,9 +23,10 @@ public class DiningTableController extends BaseServlet {
         return diningTables;
     }
 
-    public int delete(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public List<DiningTable> delete(HttpServletRequest request, HttpServletResponse response) throws Exception {
         int id = Integer.parseInt(request.getParameter("id"));
-        return diningTableService.deleteById(id);
+        diningTableService.deleteById(id);
+        return diningTableService.findByName("");
     }
 
     public List<DiningTable> save(HttpServletRequest request, HttpServletResponse response) throws Exception {

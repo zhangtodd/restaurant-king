@@ -158,8 +158,17 @@
                                     </ul>
                                 </div>
                             </div>
+                            <div class="section-head">
+                                <h3 class="section-title h2">
+                                    <span>选择餐桌</span></h3>
+                                <br>
+                                <select v-model="tableId">
+                                    <option v-for="item in tableList" :value="item.id">{{ item.name }}</option>
+                                </select>
+                                <br>
+                            </div>
                             <div class="col-auto">
-                                <button class="mb-0 btn btn-theme" type="button" id="generate-order">
+                                <button class="mb-0 btn btn-theme" type="button" @click="generateOrder">
                                     <i class="fas fa-star"></i>
                                     <span>下单</span>
                                 </button>
@@ -198,7 +207,9 @@
             foodDict: {},
             totalAmount: 0,
             username: "",
-            userId: -1
+            userId: -1,
+            tableId: -1,
+            tableList: []
         },
         methods: {
             getCart() {
@@ -253,11 +264,86 @@
                 localStorage.removeItem("login_info");
                 localStorage.removeItem("cart");
                 window.location.href = "/front/login.html";
+            },
+            generateOrder() {
+                if (this.tableId === -1) {
+                    alert("请选择餐桌");
+                    return 0;
+                }
+                if (this.totalAmount === 0) {
+                    alert("您未添加菜品，无法下单");
+                    return 0;
+                }
+                let tableName = "";
+                this.tableList.forEach(item => {
+                    if (item.id === this.tableId) {
+                        tableName = item.name;
+                    }
+                });
+                let cart = [];
+                for (let key in this.foodDict) {
+                    let item = this.foodDict[key];
+                    cart.push({
+                        "foodId": item.id,
+                        "foodName": item.name,
+                        "price": item.price,
+                        "number": item.num,
+                        "amount": item.amount
+                    })
+                }
+                let cartStr = JSON.stringify(cart);
+                axios({
+                    method: 'post',
+                    url: '/order',
+                    data: {
+                        "method": "saveOrder",
+                        "tableId": this.tableId,
+                        "tableName": tableName,
+                        "memberId": this.userId,
+                        "memberName": this.username,
+                        "totalAmount": this.totalAmount,
+                        "cart": cartStr
+                    },
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                    transformRequest: function (obj) {
+                        var str = [];
+                        for (var p in obj) {
+                            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                        }
+                        return str.join("&");
+                    }
+                }).then((res) => {
+                    let msg = res.data;
+                    alert(msg);
+                    if (msg !== "0") {
+                        alert("下单成功,订单号:" + msg);
+                        // this.foodDict = {};
+                        // this.totalAmount = 0;
+                        // this.setCart();
+                    } else {
+                        alert("下单失败，请联系餐厅管理员");
+                    }
+
+                });
+            },
+            getTable() {
+                axios.get(`/dining-table?method=search`).then(res => {
+                    const list = res.data;
+                    this.tableList = [];
+                    list.forEach((item, index) => {
+                        if (item.isBooking === 0) {
+                            this.tableList.push(item);
+                        }
+                    })
+                }).catch(err => {
+                    console.log(err);
+                });
             }
         },
         created() {
             this.getLoginInfo();
             this.getCart();
+            this.getTable();
         }
     })
 

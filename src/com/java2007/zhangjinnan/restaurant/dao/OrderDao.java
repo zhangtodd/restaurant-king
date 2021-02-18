@@ -8,7 +8,7 @@ import java.util.List;
 public interface OrderDao {
     int save(Order order) throws SQLException;
 
-    int updateOrderStatus(Long orderId) throws SQLException;
+    int updateOrderStatus(Long orderId, Integer isPay) throws SQLException;
 
     List<Order> findAll() throws SQLException;
 

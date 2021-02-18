@@ -104,7 +104,6 @@
                                         <th>总金额</th>
                                         <th>状态</th>
                                         <th>详细</th>
-                                        <th>结账</th>
                                     </tr>
                                     </thead>
                                     <tbody id="order-tbody">
@@ -115,7 +114,6 @@
                                         <td>@fat</td>
                                         <td>@fat</td>
                                         <td><a href="#" class="btn btn-xs btn-outline-info">查看</a></td>
-                                        <td><a href="#" class="btn btn-xs btn-outline-info">结账</a></td>
                                     </tr>
                                     <tr>
                                         <th scope="row">3</th>
@@ -124,7 +122,6 @@
                                         <td>@twitter</td>
                                         <td>@twitter</td>
                                         <td><a href="#" class="btn btn-xs btn-outline-info">查看</a></td>
-                                        <td><a href="#" class="btn btn-xs btn-info disabled">已结账</a></td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -167,9 +164,8 @@
                         <td>${item.diningTableName}</td>
                         <td>${newDate}</td>
                         <td>${item.totalAmount}</td>
-                        <td>已结账</td>
+                        <td>结账完成</td>
                         <td><a href="#" class="btn btn-xs btn-outline-info">查看</a></td>
-                        <td><a href="#" class="btn btn-xs btn-info disabled">已结账</a></td>
                     </tr>
                     `
                 );
@@ -180,9 +176,8 @@
                         <td>${item.diningTableName}</td>
                         <td>${newDate}</td>
                         <td>${item.totalAmount}</td>
-                        <td>已下单</td>
+                        <td>下单待支付</td>
                         <td><a href="#" class="btn btn-xs btn-outline-info">查看</a></td>
-                        <td><a href="#" class="btn btn-xs btn-outline-info">结账</a></td>
                     </tr>
                     `
                 );
@@ -195,7 +190,6 @@
                         <td>${item.totalAmount}</td>
                         <td>已退单</td>
                         <td><a href="#" class="btn btn-xs btn-outline-info">查看</a></td>
-                        <td><a href="#" class="btn btn-xs btn-outline-info disabled">已退单</a></td>
                     </tr>
                     `
                 );
@@ -208,9 +202,9 @@
             reloadTable(data);
         }, "json")
     });
-
-
 </script>
+
+
 
 
 </body>

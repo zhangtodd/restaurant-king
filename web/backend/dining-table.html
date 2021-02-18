@@ -122,9 +122,10 @@
                                         <th>#</th>
                                         <th>桌名</th>
                                         <th>状态</th>
-                                        <th>预定时间</th>
-                                        <th>预定</th>
-                                        <th>删除</th>
+                                        <th>下单时间</th>
+                                        <th>结账</th>
+                                        <th>退单</th>
+                                        <th>删除餐桌</th>
                                     </tr>
                                     </thead>
                                     <tbody id="dining-table-tbody">
@@ -133,14 +134,16 @@
                                         <td>Mark</td>
                                         <td>Otto</td>
                                         <td>@mdo</td>
-                                        <td><a href="#" class="btn btn-xs btn-outline-info">预定</a></td>
+                                        <td><a href="#" class="btn btn-xs btn-info disabled">结账</a></td>
+                                        <td><a href="#" class="btn btn-xs btn-light disabled">退单</a></td>
                                         <td><a href="#" class="btn btn-xs btn-outline-danger">删除</a></td>
                                     <tr>
                                         <th scope="row">2</th>
                                         <td>Jacob</td>
                                         <td>Thornton</td>
                                         <td>@fat</td>
-                                        <td><a href="#" class="btn btn-xs btn-info">退订</a></td>
+                                        <td><a href="#" class="btn btn-xs btn-info">结账</a></td>
+                                        <td><a href="#" class="btn btn-xs btn-light">退单</a></td>
                                         <td><a href="#" class="btn btn-xs btn-outline-danger disabled">删除</a></td>
                                     </tr>
                                     </tbody>
@@ -167,9 +170,12 @@
 
     </section>
 
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" >Open modal for @mdo</button>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">
+        Open modal for @mdo
+    </button>
 
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -224,9 +230,10 @@
                     `<tr>
                         <th scope="row">${j}</th>
                         <td id=${item.id} name=${item.name}>${item.name}</td>
-                        <td>已预定</td>
+                        <td>下单</td>
                         <td>${newDate}</td>
-                        <td><a href="#" class="btn btn-xs btn-info">退订</a></td>
+                        <td><a href="#" class="btn btn-xs btn-info">结账</a></td>
+                        <td><a href="#" class="btn btn-xs btn-light">退单</a></td>
                         <td><a href="#" class="btn btn-xs btn-outline-danger disabled">删除</a></td>
                     </tr>`
                 );
@@ -235,10 +242,11 @@
                     `<tr>
                         <th scope="row">${j}</th>
                         <td id=${item.id} name=${item.name}>${item.name}</td>
-                        <td>未预定</td>
+                        <td>空闲</td>
                         <td></td>
-                        <td><a href="#" class="btn btn-xs btn-outline-info">预定</a></td>
-                        <td><a href="#" class="btn btn-xs btn-outline-danger">删除</a></td>
+                        <td><a href="#" class="btn btn-xs btn-info disabled">结账</a></td>
+                        <td><a href="#" class="btn btn-xs btn-light disabled">退单</a></td>
+                        <td><a href="#" class="btn btn-xs btn-outline-danger" onclick="deleteTd(${item.id})">删除</a></td>
                     </tr>`
                 );
             }
@@ -259,11 +267,30 @@
     });
 
     $("#add-dining-table").click(function () {
-        const name = $("#add-table-name").val();
+        const tableName = $("#add-table-name");
+        const name = tableName.val();
+        if (name === "" || name === null) {
+            alert("未输入餐桌名");
+            return 0;
+        }
         $.post("/dining-table", {"method": "save", "name": name}, function (data) {
             reloadTable(data);
         }, "json");
+        tableName.val("");
     });
+
+    function deleteTd(id) {
+        const tdDom = document.getElementById(id);
+        const name = tdDom.getAttribute("name");
+        const r = confirm("确认删除 " + name + " 吗?");
+
+        if (r) {
+            console.log("delete " + id);
+            $.post("/dining-table", {"method": "delete", "id": id}, function (data) {
+                reloadTable(data);
+            }, "json");
+        }
+    }
 
 
 </script>

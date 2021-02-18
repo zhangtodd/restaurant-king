@@ -13,10 +13,10 @@ public class OrderDetailDaoImpl implements OrderDetailDao {
     @Override
     public int save(OrderDetail orderDetail) throws SQLException {
         QueryRunner runner = new QueryRunner(JdbcUtil.getDataSource());
-        String sql = "INSERT INTO order_detail (order_id,food_id,price,number,amount)" +
-                " VALUES (?,?,?,?,?)";
+        String sql = "INSERT INTO order_detail (order_id,food_id,food_name,price,number,amount)" +
+                " VALUES (?,?,?,?,?,?)";
         return runner.update(JdbcUtil.getConnection(), sql,
-                orderDetail.getOrderId(), orderDetail.getFoodId(), orderDetail.getPrice(),
+                orderDetail.getOrderId(), orderDetail.getFoodId(), orderDetail.getFoodName(), orderDetail.getPrice(),
                 orderDetail.getNumber(), orderDetail.getAmount());
     }
 
