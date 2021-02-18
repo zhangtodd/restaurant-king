@@ -11,19 +11,20 @@ public class DiningTable {
     private Integer isBooking;
     private Date bookingTime;
     private Integer memberId;
+    private Long orderId;
 
     public DiningTable() {
     }
 
-    public DiningTable(String name, Integer isBooking, Date bookingTime, Integer memberId) {
+    public DiningTable(String name, Integer isBooking, Date bookingTime, Integer memberId, Long orderId) {
         this.name = name;
         this.isBooking = isBooking;
         this.bookingTime = bookingTime;
         this.memberId = memberId;
+        this.orderId = orderId;
     }
 
-    public DiningTable(Integer id, Date createTime, Date updateTime, String name, Integer isBooking, Date bookingTime,
-                       Integer memberId) {
+    public DiningTable(Integer id, Date createTime, Date updateTime, String name, Integer isBooking, Date bookingTime, Integer memberId, Long orderId) {
         this.id = id;
         this.createTime = createTime;
         this.updateTime = updateTime;
@@ -31,6 +32,7 @@ public class DiningTable {
         this.isBooking = isBooking;
         this.bookingTime = bookingTime;
         this.memberId = memberId;
+        this.orderId = orderId;
     }
 
     public Integer getId() {
@@ -89,6 +91,14 @@ public class DiningTable {
         this.memberId = memberId;
     }
 
+    public Long getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
+    }
+
     @Override
     public String toString() {
         return "DiningTable{" +
@@ -99,6 +109,7 @@ public class DiningTable {
                 ", isBooking=" + isBooking +
                 ", bookingTime=" + bookingTime +
                 ", memberId=" + memberId +
+                ", orderId=" + orderId +
                 '}';
     }
 }

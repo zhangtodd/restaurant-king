@@ -15,4 +15,6 @@ public interface DiningTableService {
     int update(DiningTable diningTable, Integer bookStatus) throws SQLException;
 
     int deleteById(Integer id) throws SQLException;
+
+    int payBill(Integer id, Long orderId, Integer payStatus) throws SQLException;
 }

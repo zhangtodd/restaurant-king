@@ -179,9 +179,6 @@
             </div>
         </div>
     </div>
-    <div class="scroll-top">
-        <i class="fas fa-long-arrow-alt-up"></i>
-    </div>
 </div>
 <script src="./assets/jquery/jquery-3.3.1.min.js"></script>
 <script src="./assets/bootstrap/js/bootstrap.min.js"></script>
@@ -314,12 +311,11 @@
                     }
                 }).then((res) => {
                     let msg = res.data;
-                    alert(msg);
                     if (msg !== "0") {
                         alert("下单成功,订单号:" + msg);
-                        // this.foodDict = {};
-                        // this.totalAmount = 0;
-                        // this.setCart();
+                        this.foodDict = {};
+                        this.totalAmount = 0;
+                        this.setCart();
                     } else {
                         alert("下单失败，请联系餐厅管理员");
                     }

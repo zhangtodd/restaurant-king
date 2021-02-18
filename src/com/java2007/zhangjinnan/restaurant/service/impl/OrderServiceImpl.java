@@ -33,7 +33,7 @@ public class OrderServiceImpl implements OrderService {
             //修改餐桌状态
             DiningTable diningTable = new DiningTable();
             diningTable.setId(order.getDiningTableId());
-            diningTableDao.update(diningTable, 1);
+            diningTableDao.update(diningTable, 1, order.getId());
             //保存订单详情
             for (OrderDetail orderDetail : orderDetailList) {
                 orderDetail.setOrderId(order.getId());

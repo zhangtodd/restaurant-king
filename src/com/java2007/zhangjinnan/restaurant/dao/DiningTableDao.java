@@ -12,7 +12,7 @@ public interface DiningTableDao {
 
     int save(DiningTable diningTable) throws SQLException;
 
-    int update(DiningTable diningTable, Integer bookStatus) throws SQLException;
+    int update(DiningTable diningTable, Integer bookStatus, Long orderId) throws SQLException;
 
     int deleteById(Integer id) throws SQLException;
 

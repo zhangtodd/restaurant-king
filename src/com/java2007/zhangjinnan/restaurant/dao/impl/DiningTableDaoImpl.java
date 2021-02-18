@@ -13,14 +13,14 @@ public class DiningTableDaoImpl implements DiningTableDao {
     @Override
     public List<DiningTable> findAll() throws SQLException {
         QueryRunner runner = new QueryRunner(JdbcUtil.getDataSource());
-        String sql = "SELECT id , name , is_booking isBooking , booking_time bookingTime FROM dining_table";
+        String sql = "SELECT id , name , is_booking isBooking , booking_time bookingTime,order_id orderId FROM dining_table";
         return runner.query(sql, new BeanListHandler<>(DiningTable.class));
     }
 
     @Override
     public List<DiningTable> findByName(String keyword) throws SQLException {
         QueryRunner runner = new QueryRunner(JdbcUtil.getDataSource());
-        String sql = "SELECT id , name , is_booking isBooking , booking_time bookingTime FROM dining_table ";
+        String sql = "SELECT id , name , is_booking isBooking , booking_time bookingTime,order_id orderId FROM dining_table ";
         if (null != keyword && (!"".equals(keyword))) {
             sql = sql + " WHERE name LIKE ?";
             keyword = "%" + keyword + "%";
@@ -37,14 +37,14 @@ public class DiningTableDaoImpl implements DiningTableDao {
     }
 
     @Override
-    public int update(DiningTable diningTable, Integer bookStatus) throws SQLException {
+    public int update(DiningTable diningTable, Integer bookStatus, Long orderId) throws SQLException {
         QueryRunner runner = new QueryRunner();
         if (!bookStatus.equals(1)) {
-            String sql = "UPDATE dining_table SET is_booking = 0 , booking_time= null , update_time = NOW() WHERE id = ?";
+            String sql = "UPDATE dining_table SET is_booking = 0 , booking_time= null , order_id= null , update_time = NOW() WHERE id = ?";
             return runner.update(JdbcUtil.getConnection(), sql, diningTable.getId());
         } else {
-            String sql = "UPDATE dining_table SET is_booking = 1 , booking_time = NOW() , update_time = NOW() WHERE id = ?";
-            return runner.update(JdbcUtil.getConnection(), sql, diningTable.getId());
+            String sql = "UPDATE dining_table SET is_booking = 1 , booking_time = NOW() ,  order_id= ? ,update_time = NOW() WHERE id = ?";
+            return runner.update(JdbcUtil.getConnection(), sql, orderId, diningTable.getId());
         }
 
     }

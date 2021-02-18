@@ -19,8 +19,7 @@ public class DiningTableController extends BaseServlet {
 
     public List<DiningTable> search(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String keyword = request.getParameter("keyword");
-        List<DiningTable> diningTables = diningTableService.findByName(keyword);
-        return diningTables;
+        return diningTableService.findByName(keyword);
     }
 
     public List<DiningTable> delete(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -44,6 +43,14 @@ public class DiningTableController extends BaseServlet {
         BeanUtils.populate(diningTable, parameterMap);
 
         diningTableService.update(diningTable, diningTable.getIsBooking());
+        return diningTableService.findByName("");
+    }
+
+    public List<DiningTable> payBill(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        Integer diningTableId = Integer.valueOf(request.getParameter("dining_table_id"));
+        Long orderId = Long.valueOf(request.getParameter("order_id"));
+        Integer payStatus = Integer.valueOf(request.getParameter("pay_status"));
+        diningTableService.payBill(diningTableId, orderId, payStatus);
         return diningTableService.findByName("");
     }
 

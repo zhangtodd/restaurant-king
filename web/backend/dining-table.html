@@ -123,6 +123,7 @@
                                         <th>桌名</th>
                                         <th>状态</th>
                                         <th>下单时间</th>
+                                        <th>订单编号</th>
                                         <th>结账</th>
                                         <th>退单</th>
                                         <th>删除餐桌</th>
@@ -169,41 +170,6 @@
         </div>
 
     </section>
-
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">
-        Open modal for @mdo
-    </button>
-
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">New message</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="form-group">
-                            <label for="recipient-name" class="col-form-label">Recipient:</label>
-                            <input type="text" class="form-control" id="recipient-name">
-                        </div>
-                        <div class="form-group">
-                            <label for="message-text" class="col-form-label">Message:</label>
-                            <textarea class="form-control" id="message-text"></textarea>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Send message</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
 </div>
 <!-- JavaScript files-->
 <script src="vendor/jquery/jquery.min.js"></script>
@@ -232,8 +198,9 @@
                         <td id=${item.id} name=${item.name}>${item.name}</td>
                         <td>下单</td>
                         <td>${newDate}</td>
-                        <td><a href="#" class="btn btn-xs btn-info">结账</a></td>
-                        <td><a href="#" class="btn btn-xs btn-light">退单</a></td>
+                        <td id=${item.orderId} name=${item.id}>${item.orderId}</td>
+                        <td><a href="#" class="btn btn-xs btn-info" onclick="payTd(${item.orderId})">结账</a></td>
+                        <td><a href="#" class="btn btn-xs btn-light" onclick="chargeBack(${item.orderId})">退单</a></td>
                         <td><a href="#" class="btn btn-xs btn-outline-danger disabled">删除</a></td>
                     </tr>`
                 );
@@ -243,6 +210,7 @@
                         <th scope="row">${j}</th>
                         <td id=${item.id} name=${item.name}>${item.name}</td>
                         <td>空闲</td>
+                        <td></td>
                         <td></td>
                         <td><a href="#" class="btn btn-xs btn-info disabled">结账</a></td>
                         <td><a href="#" class="btn btn-xs btn-light disabled">退单</a></td>
@@ -289,6 +257,34 @@
             $.post("/dining-table", {"method": "delete", "id": id}, function (data) {
                 reloadTable(data);
             }, "json");
+        }
+    }
+
+    function payTd(orderId) {
+        const tdDom = document.getElementById(orderId);
+        const tableId = tdDom.getAttribute("name");
+        const r = confirm("确认结账吗?");
+
+        if (r) {
+            $.post("/dining-table",
+                {"method": "payBill", "dining_table_id": tableId, "order_id": orderId, "pay_status": "1"},
+                function (data) {
+                    reloadTable(data);
+                }, "json");
+        }
+    }
+
+    function chargeBack(orderId) {
+        const tdDom = document.getElementById(orderId);
+        const tableId = tdDom.getAttribute("name");
+        const r = confirm("确认退单吗?");
+
+        if (r) {
+            $.post("/dining-table",
+                {"method": "payBill", "dining_table_id": tableId, "order_id": orderId, "pay_status": "-1"},
+                function (data) {
+                    reloadTable(data);
+                }, "json");
         }
     }
 

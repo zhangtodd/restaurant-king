@@ -31,7 +31,7 @@ public class OrderDaoImpl implements OrderDao {
         QueryRunner runner = new QueryRunner(JdbcUtil.getDataSource());
         String sql = "SELECT id,create_time createTime,update_time updateTime,dining_table_id diningTableId , " +
                 "dining_table_name diningTableName,member_id memberId,member_name memberName," +
-                "total_amount totalAmount,is_pay isPay FROM order_list";
+                "total_amount totalAmount,is_pay isPay FROM order_list order by create_time desc";
         return runner.query(sql, new BeanListHandler<>(Order.class));
     }
 

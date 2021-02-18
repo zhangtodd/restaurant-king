@@ -18,7 +18,7 @@ public class OrderDetailController extends BaseServlet {
             (OrderDetailService) BeanFactory.getBean(ServiceConstant.ORDER_DETAIL);
 
     public List<OrderDetail> getAll(HttpServletRequest request, HttpServletResponse response) throws SQLException {
-        Long orderId = Long.valueOf(request.getParameter("order-id"));
+        Long orderId = Long.valueOf(request.getParameter("order_id"));
         return orderDetailService.findByOrderId(orderId);
     }
 

@@ -98,7 +98,7 @@
                                 <table class="table">
                                     <thead>
                                     <tr>
-                                        <th>#</th>
+                                        <th>订单编号</th>
                                         <th>桌名</th>
                                         <th>下单时间</th>
                                         <th>总金额</th>
@@ -134,6 +134,52 @@
         </div>
 
     </section>
+
+    <!-- modal -->
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">订单详情</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>菜名</th>
+                                    <th>单价</th>
+                                    <th>数量</th>
+                                    <th>小计</th>
+                                </tr>
+                                </thead>
+                                <tbody id="detail-tbody">
+                                <tr>
+                                    <td scope="row">11</td>
+                                    <td>Jacob</td>
+                                    <td>Thornton</td>
+                                    <td>@fat</td>
+                                    <td>@fat</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 <!-- JavaScript files-->
 <script src="vendor/jquery/jquery.min.js"></script>
@@ -153,43 +199,42 @@
         const tbody = $("#order-tbody");
         $("#order-tbody > tr").remove();
         data.forEach(function (item, index) {
-            const j = index + 1;
             const newDate = formatDate(new Date(item.createTime));
-            item.totalAmount=intToDouble(item.totalAmount);
+            item.totalAmount = intToDouble(item.totalAmount);
             if (item.isPay === "1" || item.isPay === 1) {
                 const paytime = formatDate(new Date(item.updateTime));
                 tbody.append(
                     `<tr>
-                        <th scope="row">${j}</th>
+                        <th scope="row">${item.id}</th>
                         <td>${item.diningTableName}</td>
                         <td>${newDate}</td>
                         <td>${item.totalAmount}</td>
-                        <td>结账完成</td>
-                        <td><a href="#" class="btn btn-xs btn-outline-info">查看</a></td>
+                        <td>已结账</td>
+                        <td><a href="#" class="btn btn-xs btn-outline-info" onclick="touchModal(${item.id})">查看</a></td>
                     </tr>
                     `
                 );
             } else if (item.isPay === "0" || item.isPay === 0) {
                 tbody.append(
                     `<tr>
-                        <th scope="row">${j}</th>
+                        <th scope="row">${item.id}</th>
                         <td>${item.diningTableName}</td>
                         <td>${newDate}</td>
                         <td>${item.totalAmount}</td>
-                        <td>下单待支付</td>
-                        <td><a href="#" class="btn btn-xs btn-outline-info">查看</a></td>
+                        <td>待支付</td>
+                        <td><a href="#" class="btn btn-xs btn-outline-info" onclick="touchModal(${item.id})">查看</a></td>
                     </tr>
                     `
                 );
-            }else if (item.isPay === "-1" || item.isPay === -1) {
+            } else if (item.isPay === "-1" || item.isPay === -1) {
                 tbody.append(
                     `<tr>
-                        <th scope="row">${j}</th>
+                        <th scope="row">${item.id}</th>
                         <td>${item.diningTableName}</td>
                         <td>${newDate}</td>
                         <td>${item.totalAmount}</td>
                         <td>已退单</td>
-                        <td><a href="#" class="btn btn-xs btn-outline-info">查看</a></td>
+                        <td><a href="#" class="btn btn-xs btn-outline-info" onclick="touchModal(${item.id})">查看</a></td>
                     </tr>
                     `
                 );
@@ -202,9 +247,30 @@
             reloadTable(data);
         }, "json")
     });
+
+    function touchModal(orderId) {
+        const detailTbody = $("#detail-tbody");
+        $("#detail-tbody > tr").remove();
+        $.get("/order-detail", {"method": "getAll", "order_id": orderId}, function (data) {
+            console.log(data);
+            data.forEach(function (item, index) {
+                let j = index + 1;
+                detailTbody.append(
+                    `
+                    <tr>
+                        <td scope="row">${j}</td>
+                        <td>${item.foodName}</td>
+                        <td>${intToDouble(item.price)}</td>
+                        <td>${item.number}</td>
+                        <td>${intToDouble(item.amount)}</td>
+                    </tr>
+                    `
+                )
+            })
+        }, "json");
+        $('#exampleModal').modal();
+    }
 </script>
-
-
 
 
 </body>
