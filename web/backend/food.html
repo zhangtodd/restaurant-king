@@ -218,7 +218,8 @@
                                     <div class="line"></div>
                                     <div class="form-group row">
                                         <div class="col-sm-4 offset-sm-2">
-                                            <button id="add-food" type="button" class="btn btn-primary">保存菜品</button>
+                                            <button id="add-food-button" type="button" class="btn btn-primary">保存菜品
+                                            </button>
                                         </div>
                                     </div>
                                 </form>
@@ -279,12 +280,26 @@
                  <td>${item.foodTypeName}</td>
                  <td>${intToDouble(item.price)}</td>
                  <td>${intToDouble(item.memberPrice)}</td>
-                 <td><a href="#" class="btn btn-xs btn-outline-danger">删除</a></td>
+                 <td><a href="javascript:;" class="btn btn-xs btn-outline-danger" onclick="deleteTd(${item.id})">删除</a></td>
                 </tr>
                 `
             )
         })
     };
+
+    function deleteTd(id) {
+        const tdDom = document.getElementById(id);
+        const name = tdDom.getAttribute("name");
+        const r = confirm("确认删除 " + name + " 吗?");
+
+        if (r) {
+            console.log("delete " + id);
+            $.post("/food", {"method": "delete", "id": id}, function (data) {
+                reloadTable(data);
+            }, "json");
+        }
+
+    }
 
     const reloadSelect = function (data) {
         const tbody = $("#add-food-type");
@@ -311,20 +326,46 @@
             reloadTable(data);
         }, "json");
     });
-    $("#add-food").click(function () {
-        const name = $("#add-food-name").val();
-        const typeName = $("#add-food-type").val();
-        const typeId = $("#add-food-type option:selected").attr("name");
-        const price = $("#add-food-price").val();
-        const memberPrice = $("#add-food-member-price").val();
+    $("#add-food-button").click(function () {
+        let name = $("#add-food-name").val();
+        let typeName = $("#add-food-type").val();
+        let typeId = $("#add-food-type option:selected").attr("name");
+        let price = $("#add-food-price").val();
+        let memberPrice = $("#add-food-member-price").val();
         // const image = $("#add-food-img").val();
         const description = $("#add-food-description").val();
 
+        let msg = "";
+        if (name === "") {
+            msg += "菜名未填写\n";
+        }
+        if (price === "") {
+            msg += "价格未填写\n";
+        }
+        if (memberPrice === "") {
+            msg += "会员价格未填写\n";
+        }
+        if (description === "") {
+            msg += "简介未填写\n";
+        }
+        if (msg !== "") {
+            alert(msg);
+            return 0;
+        }
+        price = parseInt(price) * 100;
+        memberPrice = parseInt(memberPrice) * 100;
+
         $.post("/food",
-            {"method": "save", "name": name,"typeName":typeName},
+            {
+                "method": "save", "name": name, "foodTypeId": typeId, "foodTypeName": typeName,
+                "price": price, "memberPrice": memberPrice, "description": description
+            },
             function (data) {
-                alert(data);
                 reloadTable(data);
+                $("#add-food-name").val("");
+                $("#add-food-price").val("");
+                $("#add-food-member-price").val("");
+                $("#add-food-description").val("");
             }, "json"
         );
 
@@ -353,7 +394,7 @@
 
             const formData = new FormData();  // 创建form对象
             formData.append("image", files);  // 通过append向form对象添加数据
-            formData.append("method","saveImage");
+            formData.append("method", "saveImage");
             $.ajax({
                 url: "/food", //请求的接口地址
                 type: 'POST',
@@ -361,16 +402,17 @@
                 data: formData,
                 processData: false, // 不要去处理发送的数据
                 contentType: false, // 不要去设置Content-Type请求头
-                success: function(data){
+                success: function (data) {
                     console.log(data)
                 },
-                error: function(err){
+                error: function (err) {
                     console.log(err)
                 }
             })
 
         }
     });
+
 
 </script>
 

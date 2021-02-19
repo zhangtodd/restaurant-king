@@ -32,9 +32,10 @@ public class FoodController extends BaseServlet {
         return foodService.findByTypeId(typeId);
     }
 
-    public int delete(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public List<Food> delete(HttpServletRequest request, HttpServletResponse response) throws Exception {
         int id = Integer.parseInt(request.getParameter("id"));
-        return foodService.deleteById(id);
+        foodService.deleteById(id);
+        return foodService.findByName("");
     }
 
     public List<Food> save(HttpServletRequest request, HttpServletResponse response) throws Exception {
