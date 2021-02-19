@@ -33,4 +33,6 @@ out
 # ignore log files
 *.log
 
+/web/files/*
+
 test.java

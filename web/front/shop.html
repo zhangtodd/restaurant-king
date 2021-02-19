@@ -135,18 +135,32 @@
                         </li>
                     </ul>
                 </section>
+                <!-- 分页 -->
+                <section class="section-sidebar">
+                    <div class="section-footer">
+                        <div class="paginator">
+                            <div v-for="item in pageList">
+                                <a class="paginator-item active:" href="javascript:;"
+                                   v-bind:class="{ active: item===pageCurrentNum }"
+                                   v-on:click="calPage(item)">
+                                    {{ item }}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
             </div>
             <!--food list-->
             <div class="content">
                 <section class="section">
                     <div class="grid row" id="food-list-box">
                         <!-- Single product card-->
-                        <div class="col-12 col-lg-6 d-flex" v-for="(item,index) in foodList">
+                        <div class="col-12 col-lg-6 d-flex" v-for="(item,index) in pageFoodList">
                             <article class="entity-block entity-hover-shadow">
                                 <a class="entity-preview-show-up entity-preview">
                                 <span class="embed-responsive embed-responsive-4by3">
                                 <img class="embed-responsive-item"
-                                     src="" alt="">
+                                     :src="item.image" alt="">
                                 </span>
                                 </a>
                                 <div class="fill-color-line" data-role="fill-line">
@@ -174,22 +188,7 @@
                                 </div>
                             </article>
                         </div>
-
                     </div>
-                    <!-- 分页 -->
-                    <!--                <div class="section-footer">-->
-                    <!--                    <div class="paginator">-->
-                    <!--                        <a class="paginator-nav" href="#">-->
-                    <!--                            <i class="fas fa-arrow-left"></i>-->
-                    <!--                        </a>-->
-                    <!--                        <a class="paginator-item" href="#">1</a>-->
-                    <!--                        <span class="active paginator-item">2</span>-->
-                    <!--                        <a class="paginator-item" href="#">3</a>-->
-                    <!--                        <a class="paginator-nav" href="#">-->
-                    <!--                            <i class="fas fa-arrow-right"></i>-->
-                    <!--                        </a>-->
-                    <!--                    </div>-->
-                    <!--                </div>-->
                 </section>
             </div>
 
@@ -220,13 +219,19 @@
             typeList: [],
             keyword: "",
             username: "",
-            userId: -1
+            userId: -1,
+            pageFoodList: [],
+            pageSize: 4,
+            pageCurrentNum: 1,
+            pageTotalNum: 1,
+            pageList: []
         },
         methods: {
             getFood(typeId) {
                 if (typeId === undefined) typeId = 0;
                 axios.get(`/food?method=findByTypeId&typeId=${typeId}`).then(res => {
                     this.foodList = res.data;
+                    this.calPage(1);
                 }).catch(err => {
                     console.log(err);
                 })
@@ -234,9 +239,20 @@
             getFoodByKeyword() {
                 axios.get(`/food?method=search&keyword=${this.keyword}`).then(res => {
                     this.foodList = res.data;
+                    this.calPage(1);
                 }).catch(err => {
                     console.log(err);
                 })
+            },
+            calPage(pageCurrentNum) {
+                this.pageCurrentNum = pageCurrentNum;
+                pageCurrentNum = pageCurrentNum - 1;
+                this.pageFoodList = this.foodList.slice(this.pageSize * pageCurrentNum, this.pageSize * (pageCurrentNum + 1));
+                this.pageTotalNum = Math.ceil(this.foodList.length / this.pageSize || 1);
+                this.pageList = [];
+                for (let i = 1; i <= this.pageTotalNum; i++) {
+                    this.pageList.push(i);
+                }
             },
             getType() {
                 this.typeList = [];

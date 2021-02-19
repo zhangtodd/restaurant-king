@@ -249,6 +249,7 @@
 
 
 <script>
+
     //删除方法
     function deleteTd(id) {
         console.log(id);
@@ -332,7 +333,6 @@
         let typeId = $("#add-food-type option:selected").attr("name");
         let price = $("#add-food-price").val();
         let memberPrice = $("#add-food-member-price").val();
-        // const image = $("#add-food-img").val();
         const description = $("#add-food-description").val();
 
         let msg = "";
@@ -344,6 +344,9 @@
         }
         if (memberPrice === "") {
             msg += "会员价格未填写\n";
+        }
+        if (foodUpImg === "") {
+            msg += "未上传图片\n";
         }
         if (description === "") {
             msg += "简介未填写\n";
@@ -358,18 +361,25 @@
         $.post("/food",
             {
                 "method": "save", "name": name, "foodTypeId": typeId, "foodTypeName": typeName,
-                "price": price, "memberPrice": memberPrice, "description": description
+                "price": price, "memberPrice": memberPrice, "image": foodUpImg, "description": description
             },
             function (data) {
                 reloadTable(data);
+                alert("新增成功");
                 $("#add-food-name").val("");
                 $("#add-food-price").val("");
                 $("#add-food-member-price").val("");
                 $("#add-food-description").val("");
+                $("#add-food-img").val("");
+                $("#food-image").attr("src", "").attr("style", "width: 10rem;height: 10rem; display: none");
+                // $("#food-image");
+                foodUpImg = "";
             }, "json"
         );
 
     });
+
+    let foodUpImg = "";
 
     $("#add-food-img").change(function () {
         const files = this.files[0];
@@ -403,7 +413,7 @@
                 processData: false, // 不要去处理发送的数据
                 contentType: false, // 不要去设置Content-Type请求头
                 success: function (data) {
-                    console.log(data)
+                    foodUpImg = data;
                 },
                 error: function (err) {
                     console.log(err)

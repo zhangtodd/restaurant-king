@@ -42,6 +42,11 @@ public class FoodController extends BaseServlet {
         Map<String, String[]> parameterMap = request.getParameterMap();
         Food food = new Food();
         BeanUtils.populate(food, request.getParameterMap());
+        String imgStr = food.getImage();
+        if (!StringUtils.isEmpty(imgStr)) {
+            imgStr = imgStr.substring(1, imgStr.length() - 1);
+        }
+        food.setImage(imgStr);
 
         foodService.save(food);
         return foodService.findByName("");

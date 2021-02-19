@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class FoodDaoImpl implements FoodDao {
-    String sqlFile = " id , name , food_type_id foodTypeId , food_type_name foodTypeName , price , " +
+    String sqlFile = " id , name , food_type_id foodTypeId , food_type_name foodTypeName , price , image , " +
             "member_price memberPrice , image , description ";
 
     @Override
