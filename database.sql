@@ -30,9 +30,11 @@ CREATE TABLE `dining_table` (
   `is_booking` tinyint(1) NOT NULL DEFAULT '0',
   `booking_time` datetime DEFAULT NULL,
   `member_id` int(11) DEFAULT NULL,
+  `member_name` varchar(45) DEFAULT NULL,
+  `order_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -55,7 +57,7 @@ CREATE TABLE `food` (
   `description` varchar(256) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -72,17 +74,17 @@ CREATE TABLE `food_type` (
   `name` varchar(45) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `member`
+-- Table structure for table `member_list`
 --
 
-DROP TABLE IF EXISTS `member`;
+DROP TABLE IF EXISTS `member_list`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `member` (
+CREATE TABLE `member_list` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `create_time` datetime NOT NULL,
   `update_time` datetime NOT NULL,
@@ -91,11 +93,11 @@ CREATE TABLE `member` (
   `email` varchar(45) DEFAULT NULL,
   `phone` varchar(45) DEFAULT NULL,
   `role` varchar(45) NOT NULL,
-  `level` int(11) NOT NULL,
+  `level` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   UNIQUE KEY `name_UNIQUE` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -115,7 +117,7 @@ CREATE TABLE `order_detail` (
   `amount` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -149,4 +151,4 @@ CREATE TABLE `order_list` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-02-02 22:30:51
+-- Dump completed on 2021-02-22  9:12:02
